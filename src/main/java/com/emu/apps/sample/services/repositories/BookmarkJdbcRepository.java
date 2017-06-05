@@ -1,4 +1,4 @@
-package com.emu.apps.sample.services;
+package com.emu.apps.sample.services.repositories;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +15,19 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class BookmarkRepository {
+public class BookmarkJdbcRepository {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     protected JdbcTemplate jdbc;
 
     public Bookmark getBookmark(long id) {
-        return jdbc.queryForObject("SELECT * FROM mywebmarks_bookmark WHERE id=?", bookmarkMapper, id);
+        return jdbc.queryForObject("SELECT * FROM webmarks_bookmarks_bookmark WHERE node_ptr_id=?", bookmarkMapper, id);
     }
 
     public List<Bookmark> getBookmarks(long[] ids) {
         String inIds = StringUtils.arrayToCommaDelimitedString(ObjectUtils.toObjectArray(ids));
-        return jdbc.query("SELECT * FROM mywebmarks_bookmark WHERE id IN (" + inIds + ")", bookmarkMapper);
+        return jdbc.query("SELECT * FROM webmarks_bookmarks_bookmark WHERE node_ptr_id IN (" + inIds + ")", bookmarkMapper);
     }
     
     public List<Bookmark> getBookmarks() {

@@ -1,8 +1,15 @@
 package com.emu.apps.sample.model;
+
+import io.swagger.annotations.ApiModelProperty;
+
 public class Bookmark {
+	@ApiModelProperty(notes = "The database generated product ID")
     public long id;
+	@ApiModelProperty(notes = "The title  of the Bookmark")
     public String title;
+	@ApiModelProperty(notes = "The url  of the Bookmark")
     public String url;
+	@ApiModelProperty(notes = "The description  of the Bookmark")
     public String description;
 
     public Bookmark(long id, String title, String url, String description) {

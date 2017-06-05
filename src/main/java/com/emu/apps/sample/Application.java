@@ -18,9 +18,7 @@ public class Application {
 		SpringApplication app = new SpringApplication(Application.class); 
         app.setShowBanner(true); 
         ApplicationContext ctx  =  app.run(args); 
-		
 		//ApplicationContext ctx  = SpringApplication.run(Application.class, args);
-
 		System.out.println("List of beans provided by Spring Boot:");
         String[] beanNames = ctx.getBeanDefinitionNames();
         Arrays.sort(beanNames);
