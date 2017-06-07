@@ -18,7 +18,7 @@ import com.emu.apps.sample.services.repositories.BookmarkJdbcRepository;
 @RequestMapping("bookmarks")
 @Api(value="bookmark-store", description="Operations on bookmarks Store")
 public class BookmarkRestController {
-    protected final Logger log = LoggerFactory.getLogger(getClass());
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private BookmarkJdbcRepository bookmarkRepository;
@@ -26,21 +26,21 @@ public class BookmarkRestController {
     @RequestMapping(value = "test",method= RequestMethod.GET)
     @ApiOperation(value = "Dummy Test ",response = String.class)
     public String test() {
-        log.info("Test");
+        logger.info("Test");
         return "OK";
     }
 
     @RequestMapping(value = "{id}" ,method= RequestMethod.GET)
     @ApiOperation(value = "Search a bookmark with an ID",response = Bookmark.class)
     public Bookmark getBookmark(@PathVariable("id") long id) {
-        log.info("Get Bookmark");
+        logger.info("Get Bookmark");
         return bookmarkRepository.getBookmark(id);
     }
 
     
    /* @RequestMapping(value= "ids", produces = "application/json")
     public List<Bookmark> getBookmarksById(@RequestParam("ids") long[] ids) {
-        log.info("Get bookmarks");
+        logger.info("Get bookmarks");
         return bookmarkRepository.getBookmarks(ids);
     }*/
     
@@ -54,7 +54,7 @@ public class BookmarkRestController {
     }
     )
     public List<Bookmark> getBookmarks() {
-        log.info("Get bookmark");
+        logger.info("Get bookmark");
         return bookmarkRepository.getBookmarks();
     }
 } 

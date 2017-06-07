@@ -16,14 +16,15 @@ import org.springframework.web.bind.annotation.*;
  * Created by eric on 05/06/2017.
  */
 @RestController
-@RequestMapping("questions")
+@RequestMapping("api/questions")
 @Api(value = "question-store", description = "All operations ",tags = "Question Resource")
 public class QuestionRestController {
 
-    protected final Logger log = LoggerFactory.getLogger(getClass());
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private QuestionService questionService;
+
     @ApiOperation(value = "Find a question by ID", response = Question.class)
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -49,7 +50,7 @@ public class QuestionRestController {
     @ApiOperation(value = "Create Dummy questions", response = String.class)
     @RequestMapping(value = "/dummy", method = RequestMethod.GET, produces = "application/json")
     public String dummy() {
-        log.info("init");
+        logger.info("init");
         questionService.init();
         return "Done";
     }

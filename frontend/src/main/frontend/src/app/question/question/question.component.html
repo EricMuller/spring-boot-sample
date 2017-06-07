@@ -1,0 +1,45 @@
+
+<md-menu #appMenuApp="mdMenu">
+  <a md-menu-item [routerLinkActive]="['active']" (click)="clear()">Clear</a>
+</md-menu>
+
+<md-toolbar color="primary" role="application">
+    <span>
+      <button md-icon-button [mdMenuTriggerFor]="appMenuApp">
+      <md-icon>apps</md-icon>
+      </button>
+    </span>
+
+  <span>{{questions.length }} {{title}}</span>
+  <span class="fill-remaining-space" >
+    <md-input-container class="example-full-width">
+      <input mdInput  value="{{number}}" (keyup)="onKey($event)" >
+    </md-input-container>
+  </span>
+  <button md-icon-button (click) ="previous()"> <md-icon>skip_previous</md-icon> </button>
+  <button md-icon-button (click) ="next()"> <md-icon>skip_next</md-icon> </button>
+</md-toolbar>
+
+
+<div style="padding: 20px">
+
+  <span class="fill-remaining-space" >
+
+  <md-select placeholder="Select a Categorie"  style="width: 300px"
+             [(ngModel)]="categorie" [ngModelOptions]="{standalone: true}"
+             (change)="onCategorieSelect()">
+    <md-option *ngFor="let categ of categories"  [value]="categ.value">
+      {{categ.viewValue}}
+    </md-option>
+  </md-select>
+    </span>
+</div>
+<div *ngIf="question" style="padding: 10px">
+  <div class="flex_center"><h1>{{question.question}}</h1></div>
+  <div class="flex_center"><h3 [innerHTML]="question.reponse"></h3></div>
+</div>
+<!--<div *ngFor="let categ of categories">{{categ}}</div>-->
+
+
+
+

@@ -7,7 +7,7 @@
 	<artifactId>spring-boot-sample-frontend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>fontend</name>
+	<name>frontend</name>
 	<description>Frontend Project</description>
 
 	<parent>
@@ -64,8 +64,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
-
 
 </project>

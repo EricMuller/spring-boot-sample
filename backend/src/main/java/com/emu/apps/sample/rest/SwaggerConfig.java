@@ -20,7 +20,7 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.emu.apps.sample.rest"))
                 //.paths(regex("/bookmarks.*"))
-                .paths(regex("/questions.*"))
+                .paths(regex("/api.*"))
                 .build()
                 .apiInfo(metaData());
     }
