@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {QuestionService} from 'app/question/question.service'
-import {Question} from 'app/question/model/question'
+import {Component, OnInit} from '@angular/core';
+import {Question} from 'app/question/question/question'
+import {QuestionService} from "./question.service";
+import {NotifierService} from "../../shared/simple-notifier.service";
+
+
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
@@ -8,67 +11,17 @@ import {Question} from 'app/question/model/question'
 })
 export class QuestionComponent implements OnInit {
   public title = ' Questions JAVA !';
-  public nbQuestion : number = 0 ;
-  public number : number = 0 ;
-
-  public question : Question;
-  public categorie : string;
-  public categories:any[];
-  public questions: Question[];
+  public number: number = 0;
+  public question: Question;
+  public questions: Question[] =[];
 
   ngOnInit() {
   }
 
-  constructor(private questionService:QuestionService ){
-    this.questions = this.questionService.getQuestions();
-    let categories = this.questionService.getCategories();
-    let array =[];
-    for(let categ of categories) {
-      if (categ != "") {
-        array.push({value: categ, viewValue: categ})
-      }
-    }
-    this.categories =array;
-  }
-
-  public next() {
-    if(this.number<this.questions.length){
-      this.number++;
-      this.loadQuestion();
-    }
-  }
-
-  public previous() {
-    if (this.number > 0) {
-      this.number--;
-      this.loadQuestion();
-    }
-  }
-
-  public onKey(event: any) { // without type info
-    this.number = event.target.value ;
-    this.loadQuestion();
-  }
-
-  public clear(){
-    this.number= 0;
-    this.question= null;
-    this.categorie= null;
-    this.questions = this.questionService.getQuestions();
-  }
-  public onCategorieSelect(){
-    this.questions = this.questionService.getQuestions().filter((question)=>{return question.categorie == this.categorie });
-    this.number= 0;
-    this.questions.forEach(
-      (x1, index, theArray) => {
-        this.questions[index].number = this.number++;
-      });
-    this.number= 0;
-    this.loadQuestion();
+  constructor(private questionService: QuestionService, private notifierService: NotifierService) {
   }
 
   public loadQuestion() {
-
     let res = this.questions.filter((element) => {
       return element.number == this.number;
     });
@@ -77,5 +30,22 @@ export class QuestionComponent implements OnInit {
       this.question.reponse = this.question.reponse.replace(/\n/ig, "<br>");
     }
   }
+
+  public search() {
+    this.questionService.search().subscribe(
+      result => {
+        //this.pushBookmarks(result)
+        this.questions.slice();
+        for(let q of result ){
+          this.questions.push(q);
+        }
+        console.log(result);
+      },
+      err => {
+        console.error(err);
+      });
+    //this.notifierService.notifySuccess("dd");
+  }
+
 
 }

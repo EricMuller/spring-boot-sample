@@ -1,3 +1,25 @@
- <router-outlet></router-outlet>
+<div class="container">
+  <div class="row">
+<md-menu #appMenuApp="mdMenu">
+  <button md-menu-item [routerLinkActive]="['active']" routerLink="/home">
+    <md-icon>home</md-icon>
+    home</button>
+  <button md-menu-item [routerLinkActive]="['active']" routerLink="/questions">
+    <md-icon>question_answer</md-icon>
+   Liste de Questions
+  </button>
+</md-menu>
+
+<md-toolbar color="primary" role="application">
+    <span>
+      <button md-icon-button [mdMenuTriggerFor]="appMenuApp">
+      <md-icon>apps</md-icon>
+      </button>
+    </span>
+  <span class="fill-remaining-space"></span>
+</md-toolbar>
+
+<router-outlet></router-outlet>
 
 
+</div></div>

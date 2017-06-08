@@ -1,8 +1,9 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
+
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
 // material
 import {MdButtonModule, MdCheckboxModule} from '@angular/material';
 import {MdToolbarModule} from '@angular/material';
@@ -10,29 +11,33 @@ import {MdIconModule, MdMenuModule, MdInputModule} from '@angular/material';
 import {RouterModule} from '@angular/router';
 import {QuestionComponent} from './question/question/question.component';
 import {MdSelectModule} from '@angular/material';
+import {MdSnackBarModule} from '@angular/material';
 
+// application
 import {AppComponent} from './app.component';
-import {QuestionService} from './question/question.service';
-import { HomeComponent } from './home/home.component';
-import { UploadComponent } from './upload/upload.component'
+import {QuestionService} from './question/question/question.service';
+import {HomeComponent} from './home/home.component';
+import {UploadComponent} from './upload/upload.component'
 
-export const ROUTES_CONFIG = [
-  {
-    path: '', component: HomeComponent, pathMatch: 'full'
-  },
-  { path: 'question', component: QuestionComponent},
-  { path: 'upload', component: UploadComponent},
+/* shared*/
+import {NotifierService} from './shared/simple-notifier.service'
+import {HttpModule} from '@angular/http';
+import {HTTP_PROVIDER} from './shared/custom.http.provider';
+import {ROUTES_CONFIG} from './config/app.routes.config';
+/* boostrap*/
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-]
 
 @NgModule({
   declarations: [
     AppComponent,
     QuestionComponent,
     HomeComponent,
-    UploadComponent
+    UploadComponent,
+
   ],
   imports: [
+    NgbModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpModule,
@@ -44,10 +49,11 @@ export const ROUTES_CONFIG = [
     MdIconModule,
     MdInputModule,
     MdMenuModule,
+    MdSnackBarModule,
     RouterModule,
-    RouterModule.forRoot(ROUTES_CONFIG),
+    RouterModule.forRoot(ROUTES_CONFIG)
   ],
-  providers: [QuestionService],
+  providers: [QuestionService, NotifierService, HTTP_PROVIDER],
   bootstrap: [AppComponent]
 })
 export class AppModule {

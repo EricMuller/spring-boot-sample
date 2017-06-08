@@ -1,25 +1,11 @@
+<!--
+<md-input-container class="example-full-width">
+  <input mdInput  value="{{number}}" (keyup)="onKey($event)" >
+</md-input-container>
+<button md-icon-button (click) ="previous()"> <md-icon>skip_previous</md-icon> </button>
+<button md-icon-button (click) ="next()"> <md-icon>skip_next</md-icon> </button>
 
-<md-menu #appMenuApp="mdMenu">
-  <a md-menu-item [routerLinkActive]="['active']" (click)="clear()">Clear</a>
-</md-menu>
-
-<md-toolbar color="primary" role="application">
-    <span>
-      <button md-icon-button [mdMenuTriggerFor]="appMenuApp">
-      <md-icon>apps</md-icon>
-      </button>
-    </span>
-
-  <span>{{questions.length }} {{title}}</span>
-  <span class="fill-remaining-space" >
-    <md-input-container class="example-full-width">
-      <input mdInput  value="{{number}}" (keyup)="onKey($event)" >
-    </md-input-container>
-  </span>
-  <button md-icon-button (click) ="previous()"> <md-icon>skip_previous</md-icon> </button>
-  <button md-icon-button (click) ="next()"> <md-icon>skip_next</md-icon> </button>
-</md-toolbar>
-
+<a  routerLink="upload" >Upload</a>
 
 <div style="padding: 20px">
 
@@ -37,8 +23,34 @@
 <div *ngIf="question" style="padding: 10px">
   <div class="flex_center"><h1>{{question.question}}</h1></div>
   <div class="flex_center"><h3 [innerHTML]="question.reponse"></h3></div>
-</div>
+</div>-->
 <!--<div *ngFor="let categ of categories">{{categ}}</div>-->
+
+    <md-toolbar>
+      <span *ngIf="!showResult">Questions</span>
+      <span class="fill-remaining-space"></span>
+      <span>
+        <button md-raised-button mdTooltip="Search" (click)="search()">
+            <md-icon>search</md-icon> Search
+        </button>
+      </span>
+    </md-toolbar>
+
+    <md-nav-list>
+      <md-list-item *ngFor="let question of questions">
+        <div style="margin-right: 0px">
+          <div>
+            <a md-icon-button style="max-width: 600px;overflow: hidden" mdTooltip="Edit Bookmark">
+              <md-icon color="primary">create</md-icon>
+            </a>
+          </div>
+
+        </div>
+        <span class="fill-remaining-space"></span>
+        <span>{{question.question}}</span>
+      </md-list-item>
+      <md-divider></md-divider>
+    </md-nav-list>
 
 
 

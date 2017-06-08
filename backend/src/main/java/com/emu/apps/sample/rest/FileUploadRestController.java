@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @RequestMapping("api/upload")
-@Api(value="upload-store", description="Upload a data file",tags = "File Upload")
+@Api(value="upload-store", description="All Opérations",tags = "Upload")
 public class FileUploadRestController {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());

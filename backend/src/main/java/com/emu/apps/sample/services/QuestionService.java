@@ -45,9 +45,11 @@ public class QuestionService {
     public void init() {
         questionRepository.deleteAll();
         Category category = categorieRepository.save(new Category("CAT1", "Categorie1"));
-        Question question = new Question("question1", "reponse1", new Date());
-        question.setCategory(category);
-        questionRepository.save(question);
+        for(int i=0;i<1000;i++) {
+            Question question = new Question("question"+String.valueOf(i), "reponse"+String.valueOf(i), new Date());
+            question.setCategory(category);
+            questionRepository.save(question);
+        }
 
     }
 

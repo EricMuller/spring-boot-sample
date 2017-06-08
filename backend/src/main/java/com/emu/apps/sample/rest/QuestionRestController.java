@@ -10,14 +10,17 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Created by eric on 05/06/2017.
  */
 @RestController
 @RequestMapping("api/questions")
-@Api(value = "question-store", description = "All operations ",tags = "Question Resource")
+@Api(value = "questions-store", description = "All operations ",tags = "Questions")
 public class QuestionRestController {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -53,6 +56,34 @@ public class QuestionRestController {
         logger.info("init");
         questionService.init();
         return "Done";
+    }
+
+    @ApiOperation(value = "upload a question json file", response = ResponseEntity.class)
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> uploadQuestionFile(@RequestParam("file") MultipartFile file) {
+
+        try {
+            logger.info(file.getName());
+            /*
+             MultipartHttpServletRequest multipartRequest=(MultipartHttpServletRequest)request;
+                    Iterator<String> it=multipartRequest.getFileNames();
+                    MultipartFile multipart=multipartRequest.getFile(it.next());
+                    String fileName=id+".png";
+                    String imageName = fileName;
+
+                    byte[] bytes=multipart.getBytes();
+                    BufferedOutputStream stream= new BufferedOutputStream(new FileOutputStream("src/main/resources/static/image/book/"+fileName));;
+
+                    stream.write(bytes);
+                    stream.close();
+                    return new ResponseEntity("upload success", HttpStatus.OK);
+
+             */
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
