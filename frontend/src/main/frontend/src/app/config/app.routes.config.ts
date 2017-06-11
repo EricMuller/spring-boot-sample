@@ -13,6 +13,7 @@ export const ROUTES_CONFIG = [
       {path: 'upload', component: UploadComponent},
     ]
   },
+  {path: 'upload', component: UploadComponent},
   {path: '**', redirectTo: ''}
 ]
 

@@ -1,4 +1,6 @@
-package com.emu.apps.sample.model;
+package com.emu.apps.sample.services.dtos;
+
+import com.emu.apps.sample.model.Category;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -6,49 +8,27 @@ import java.util.Date;
 /**
  * Created by eric on 05/06/2017.
  */
-@Entity
-public class Question {
-    /*@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUST_SEQ")
-    @SequenceGenerator(sequenceName = "customer_seq", allocationSize = 1, name = "CUST_SEQ")*/
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+public class FileQuestionJson {
+
     private Long id;
 
+    private Long number;
 
-    transient private Long number;
-
-    @Column(name = "middle_name", nullable = false, length = 1024)
     private String question;
 
-    @Column(name = "response", nullable = false, length = 32672)
     private String response;
 
+    private String categorie;
 
-    transient private String categorie;
-
-    @Column(name = "CREATED_DATE")
-    private Date date;
-
-    @ManyToOne
-    private Category category;
-
-    public Question() {
+    public FileQuestionJson() {
     }
 
-    public Question(String question, String response, Date date) {
+    public FileQuestionJson(String question, String response, Date date) {
         this.question = question;
         this.response = response;
-        this.date = date;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 
     public Long getId() {
         return id;
@@ -72,14 +52,6 @@ public class Question {
 
     public void setResponse(String response) {
         this.response = response;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public String getCategorie() {

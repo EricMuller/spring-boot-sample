@@ -2,7 +2,13 @@ package com.emu.apps.sample.rest;
 
 import com.emu.apps.sample.model.Question;
 import com.emu.apps.sample.services.QuestionService;
+import com.emu.apps.sample.services.dtos.FileQuestionJson;
 import com.emu.apps.sample.services.dtos.QuestionDto;
+import com.emu.apps.sample.services.mappers.FileQuestionMapper;
+import com.emu.apps.sample.services.mappers.QuestionMapper;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -14,19 +20,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by eric on 05/06/2017.
  */
 @RestController
 @RequestMapping("api/questions")
-@Api(value = "questions-store", description = "All operations ",tags = "Questions")
+@Api(value = "questions-store", description = "All operations ", tags = "Questions")
 public class QuestionRestController {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private QuestionService questionService;
+
 
     @ApiOperation(value = "Find a question by ID", response = Question.class)
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
@@ -59,32 +70,26 @@ public class QuestionRestController {
     }
 
     @ApiOperation(value = "upload a question json file", response = ResponseEntity.class)
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/upload", method = RequestMethod.POST, headers = "Content-Type= multipart/form-data")
     @ResponseBody
-    public ResponseEntity<?> uploadQuestionFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> uploadQuestionFile(@RequestParam("file") MultipartFile file) throws IOException {
 
         try {
-            logger.info(file.getName());
-            /*
-             MultipartHttpServletRequest multipartRequest=(MultipartHttpServletRequest)request;
-                    Iterator<String> it=multipartRequest.getFileNames();
-                    MultipartFile multipart=multipartRequest.getFile(it.next());
-                    String fileName=id+".png";
-                    String imageName = fileName;
-
-                    byte[] bytes=multipart.getBytes();
-                    BufferedOutputStream stream= new BufferedOutputStream(new FileOutputStream("src/main/resources/static/image/book/"+fileName));;
-
-                    stream.write(bytes);
-                    stream.close();
-                    return new ResponseEntity("upload success", HttpStatus.OK);
-
-             */
+            logger.info(file.getOriginalFilename());
+            ObjectMapper objectMapper = new ObjectMapper();
+            //objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            //objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+            final FileQuestionJson[] questions = objectMapper.readValue(file.getInputStream(), FileQuestionJson[].class);
+            for (FileQuestionJson fileQuestionJson : questions) {
+                logger.info("saving question question:= " + fileQuestionJson.getQuestion());
+                questionService.save(fileQuestionJson);
+            }
         } catch (Exception e) {
+            logger.error("err", e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
 }
