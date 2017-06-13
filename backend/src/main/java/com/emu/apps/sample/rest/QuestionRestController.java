@@ -18,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -56,6 +58,7 @@ public class QuestionRestController {
     )
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
+    @PreAuthorize("true")
     public Iterable<QuestionDto> getQuestions() {
         return questionService.findAll();
 
@@ -72,6 +75,7 @@ public class QuestionRestController {
     @ApiOperation(value = "upload a question json file", response = ResponseEntity.class)
     @RequestMapping(value = "/upload", method = RequestMethod.POST, headers = "Content-Type= multipart/form-data")
     @ResponseBody
+    @Secured("ROLE_USER")
     public ResponseEntity<?> uploadQuestionFile(@RequestParam("file") MultipartFile file) throws IOException {
 
         try {

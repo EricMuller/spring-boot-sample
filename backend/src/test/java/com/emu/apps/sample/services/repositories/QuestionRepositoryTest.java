@@ -1,4 +1,4 @@
-package com.emu.apps.sample;
+package com.emu.apps.sample.services.repositories;
 
 import com.emu.apps.sample.model.Question;
 import com.emu.apps.sample.services.repositories.QuestionCrudRepository;
