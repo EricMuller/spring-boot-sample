@@ -12,25 +12,24 @@ import javax.persistence.Id;
 public class Category {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
 
     private String libelle;
-
-
 
     public Category() {
     }
 
-    public Category(String id, String libelle) {
+    public Category(String libelle) {
         this.id = id;
         this.libelle = libelle;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

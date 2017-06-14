@@ -24,7 +24,6 @@ public class Question {
     @Column(name = "response", nullable = false, length = 32672)
     private String response;
 
-
     transient private String categorie;
 
     @Column(name = "CREATED_DATE")

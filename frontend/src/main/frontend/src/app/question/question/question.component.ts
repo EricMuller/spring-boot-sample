@@ -35,7 +35,7 @@ export class QuestionComponent implements OnInit {
     this.questionService.search().subscribe(
       result => {
         //this.pushBookmarks(result)
-        this.questions.slice();
+        this.questions.slice(0);
         for(let q of result ){
           this.questions.push(q);
         }

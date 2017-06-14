@@ -3,6 +3,7 @@ package com.emu.apps.sample.rest;
 import com.emu.apps.sample.model.Question;
 import com.emu.apps.sample.services.QuestionService;
 import com.emu.apps.sample.services.dtos.FileQuestionJson;
+import com.emu.apps.sample.services.dtos.MessageDto;
 import com.emu.apps.sample.services.dtos.QuestionDto;
 import com.emu.apps.sample.services.mappers.FileQuestionMapper;
 import com.emu.apps.sample.services.mappers.QuestionMapper;
@@ -64,6 +65,16 @@ public class QuestionRestController {
 
     }
 
+
+    @ApiOperation(value = "Find all questions by category", response = Iterable.class)
+    @RequestMapping(value="/category/{id}",method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    @PreAuthorize("true")
+    public Iterable<QuestionDto> getQuestionsByCategoryId(@PathVariable("id") String id) {
+        return questionService.findByCategoryId(id);
+    }
+
+
     @ApiOperation(value = "Create Dummy questions", response = String.class)
     @RequestMapping(value = "/dummy", method = RequestMethod.GET, produces = "application/json")
     public String dummy() {
@@ -73,7 +84,7 @@ public class QuestionRestController {
     }
 
     @ApiOperation(value = "upload a question json file", response = ResponseEntity.class)
-    @RequestMapping(value = "/upload", method = RequestMethod.POST, headers = "Content-Type= multipart/form-data")
+    @RequestMapping(value = "/upload", method = RequestMethod.POST, headers = "Content-Type= multipart/form-data", produces = "application/json")
     @ResponseBody
     @Secured("ROLE_USER")
     public ResponseEntity<?> uploadQuestionFile(@RequestParam("file") MultipartFile file) throws IOException {
@@ -93,7 +104,7 @@ public class QuestionRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(new MessageDto("Ok"),HttpStatus.OK);
     }
 
 }

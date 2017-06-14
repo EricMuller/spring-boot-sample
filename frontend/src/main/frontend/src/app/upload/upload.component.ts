@@ -3,6 +3,7 @@ import {Observable} from "rxjs/Observable";
 import {Http, Headers, ConnectionBackend, Request, RequestOptions, RequestOptionsArgs, Response} from '@angular/http';
 import {CustomHttp} from "../shared/custom.http";
 import {DomSanitizer} from "@angular/platform-browser"
+import {NotifierService} from "../shared/simple-notifier.service";
 
 @Component({
   selector: 'app-upload',
@@ -20,13 +21,12 @@ export class UploadComponent implements OnInit {
       question: "What is the difference between JDK and JRE?",
       response: "JDK stands for Java Development Kit. It contains the tools and\nlibraries for development of Java programs. It also contains\ncompilers and debuggers needed to compile Java program,\n \nJRE stands for Java Runtime Environment. This is included in JDK.\nJRE provides libraries and JVM that is required to run a Java\nprogram."
     };
-  constructor(private http: CustomHttp,private http1: Http) {
+  constructor(private http: CustomHttp,private http1: Http, private notifierService: NotifierService) {
   }
 
   ngOnInit() {
 
   }
-
 
   public fileChange(event) {
     let fileList: FileList = event.target.files;
@@ -42,7 +42,7 @@ export class UploadComponent implements OnInit {
         .map(res => res.json())
         .catch(error => Observable.throw(error))
         .subscribe(
-          data => console.log('success'),
+          data => this.notifierService.notifySuccess('Upload Ok'),
           error => console.log(error)
         )
     }

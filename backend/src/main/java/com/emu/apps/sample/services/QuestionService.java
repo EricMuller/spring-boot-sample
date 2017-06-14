@@ -8,6 +8,8 @@ import com.emu.apps.sample.services.mappers.FileQuestionMapper;
 import com.emu.apps.sample.services.mappers.QuestionMapper;
 import com.emu.apps.sample.services.repositories.CategoryCrudRepository;
 import com.emu.apps.sample.services.repositories.QuestionCrudRepository;
+import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,12 @@ public class QuestionService {
         return questionMapper.modelToDto(question);
     }
 
+    public Iterable<QuestionDto> findByCategoryId(String id) {
+        log.info("findByCategoryId question");
+        Iterable<Question> questions = questionRepository.findByCategoryId(id);
+        return questionMapper.modelToDtos(questions);
+    }
+
     public Iterable<QuestionDto> findAll() {
         log.info("find All question");
         Iterable<Question> questions = questionRepository.findAll();
@@ -52,13 +60,25 @@ public class QuestionService {
     public void save(FileQuestionJson fileQuestionJson) {
         Question question = fileQuestionMapper.dtoToModel(fileQuestionJson);
         question.setDate(new Date());
+
+        if (StringUtils.isNotEmpty(question.getCategorie())) {
+            Category category = categorieRepository.findByLibelle(question.getCategorie());
+            if (category == null) {
+                category = new Category();
+                //category.setId(question.getCategorie().toUpperCase().substring(0, question.getCategorie().length() < 5 ? question.getCategorie().length() : 5 ) + "_" + RandomUtils.nextBytes(5));
+                category.setLibelle(question.getCategorie());
+                categorieRepository.save(category);
+                question.setCategory(category);
+            }
+        }
+
         questionRepository.save(question);
     }
 
     @Transactional()
     public void init() {
         questionRepository.deleteAll();
-        Category category = categorieRepository.save(new Category("CAT1", "Categorie1"));
+        Category category = categorieRepository.save(new Category("Categorie1"));
         for (int i = 0; i < 1000; i++) {
             Question question = new Question("question" + String.valueOf(i), "reponse" + String.valueOf(i), new Date());
             question.setCategory(category);
