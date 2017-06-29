@@ -8,6 +8,7 @@ import com.emu.apps.sample.services.dtos.QuestionDto;
 import com.emu.apps.sample.services.mappers.FileQuestionMapper;
 import com.emu.apps.sample.services.mappers.QuestionMapper;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
@@ -105,6 +106,12 @@ public class QuestionRestController {
         }
 
         return new ResponseEntity<>(new MessageDto("Ok"),HttpStatus.OK);
+    }
+
+
+    @ExceptionHandler({JsonProcessingException.class,IOException.class})
+    public ResponseEntity<?> handleAllexception(Exception e) throws IOException {
+        return new ResponseEntity<>(new MessageDto(e.getMessage()),HttpStatus.BAD_REQUEST);
     }
 
 }

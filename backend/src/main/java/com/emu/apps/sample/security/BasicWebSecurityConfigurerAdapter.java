@@ -1,4 +1,4 @@
-package com.emu.apps.sample;
+package com.emu.apps.sample.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -8,9 +8,9 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-@EnableWebSecurity
-@Configuration
-public class CustomWebSecurityConfigurerAdapter extends
+//@EnableWebSecurity
+//@Configuration
+public class BasicWebSecurityConfigurerAdapter extends
         WebSecurityConfigurerAdapter {
 
     @Autowired
