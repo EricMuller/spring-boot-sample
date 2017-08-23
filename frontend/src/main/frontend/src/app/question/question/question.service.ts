@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Question} from './question'
+import {Question} from './question.model'
 import {Response} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 
 import * as _ from 'underscore';
-import {CustomHttp} from "../../shared/custom.http";
+import {CustomHttp} from '../../shared/custom.http';
 
 @Injectable()
 export class QuestionService {
@@ -15,14 +15,14 @@ export class QuestionService {
   }
 
   public search() {
-    return this.http.get("/api/questions")
+    return this.http.get('/api/questions')
       .map(this.extractBody)
       .catch(this.handleError).share();
   }
 
   public extractBody(response: Response) {
-    let body = response.json();
-    console.log("Extract body =" + body);
+    const body = response.json();
+    console.log('Extract body =' + body);
     return body || {};
   }
 

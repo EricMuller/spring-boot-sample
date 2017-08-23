@@ -1,33 +1,40 @@
 <div class="container">
   <div class="row">
-<md-menu #appMenuApp="mdMenu">
-  <button md-menu-item [routerLinkActive]="['active']" routerLink="/home">
-    <md-icon>home</md-icon>
-    home</button>
-  <button md-menu-item [routerLinkActive]="['active']" routerLink="/questions">
-    <md-icon>question_answer</md-icon>
-   Liste de Questions
-  </button>
-  <button md-menu-item [routerLinkActive]="['active']" routerLink="/upload">
-    <md-icon>content_copy</md-icon>
-      Load dummy questions
-  </button>
-  <a md-menu-item   href="/login/github">
-    <md-icon>content_copy</md-icon>
-    connect with github
-  </a>
-</md-menu>
 
-<md-toolbar color="primary" role="application">
+    <md-menu #appMenuApp="mdMenu">
+       <button  md-menu-item [routerLinkActive]="['active']" routerLink="/home">
+        <md-icon>home</md-icon>
+        home
+      </button>
+      <button *ngIf="user" md-menu-item [routerLinkActive]="['active']" routerLink="/questions">
+        <md-icon>question_answer</md-icon>
+        Liste de Questions
+      </button>
+      <button *ngIf="user" md-menu-item [routerLinkActive]="['active']" routerLink="/upload">
+        <md-icon>content_copy</md-icon>
+        Load dummy questions
+      </button>
+      <a *ngIf="user" md-menu-item href="/logout">
+        <md-icon>content_copy</md-icon>
+        logout
+      </a>
+      <a *ngIf="!user"md-menu-item href="/login/github">
+        <md-icon>content_copy</md-icon>
+        login with github
+      </a>
+    </md-menu>
+
+    <md-toolbar color="primary" role="application">
     <span>
       <button md-icon-button [mdMenuTriggerFor]="appMenuApp">
       <md-icon>apps</md-icon>
       </button>
     </span>
-  <span class="fill-remaining-space"></span>
-</md-toolbar>
+      <span class="fill-remaining-space"></span>
+    </md-toolbar>
 
-<router-outlet></router-outlet>
+    <router-outlet></router-outlet>
 
 
-</div></div>
+  </div>
+</div>

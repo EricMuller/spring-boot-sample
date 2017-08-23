@@ -1,3 +1,11 @@
+security:
+  oauth2:
+    client:
+      client-id: acme
+      client-secret: acmesecret
+      scope: read,write
+      auto-approve-scopes: '.*'
+
 github:
   client:
     clientId: Iv1.acbf7009a5610786
@@ -7,3 +15,8 @@ github:
     clientAuthenticationScheme: form
   resource:
     userInfoUri: https://api.github.com/user
+
+
+logging:
+  level:
+    org.springframework.security: DEBUG

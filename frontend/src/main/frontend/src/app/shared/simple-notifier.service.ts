@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {MdSnackBar} from "@angular/material";
+import {MdSnackBar} from '@angular/material';
 
 @Injectable()
 export class NotifierService {
@@ -17,7 +17,7 @@ export class NotifierService {
   }
 
   public notifyError(message: string, timeOut: number = 0) {
-    this.notifySuccess(message, timeOut);
+    this.mdSnackBar.open(message, 'ERROR');
   }
 
 

@@ -1,5 +1,4 @@
-
-export class Question{
+export class Question {
   number: number;
   categorie: string;
   question: string;

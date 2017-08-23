@@ -1,11 +1,9 @@
 package com.emu.apps.sample.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 //@EnableWebSecurity
@@ -25,7 +23,7 @@ public class BasicWebSecurityConfigurerAdapter extends
                     .password("password")
                     .roles("ADMIN", "USER");
         } catch (Exception e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -48,7 +46,6 @@ public class BasicWebSecurityConfigurerAdapter extends
                 .and()
                 .formLogin()  // #8
                 .loginProcessingUrl("/login") // #9
-
                 .permitAll(); // #5
     }
 

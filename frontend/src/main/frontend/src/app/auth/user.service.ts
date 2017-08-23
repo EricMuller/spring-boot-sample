@@ -1,25 +1,32 @@
 import {Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
+import {User} from 'app/auth/user.model';
 
-import * as _ from 'underscore';
 
-import {CustomHttp} from './custom.http';
+import {CustomHttp} from '../shared/custom.http';
 
 @Injectable()
 export class UserService {
 
+  public user: User;
+
   constructor(private http: CustomHttp) {
   }
 
-  public user() {
-    return this.http.get('/api/user')
-      .map(this.extractBody)
-      .catch(this.handleError).share();
+  public getCurrentUser(): Observable<User> {
+    if (this.user != null) {
+      return Observable.of(this.user);
+    } else {
+      return this.http.get('/api/user')
+        .map(this.extractBody)
+        .catch(this.handleError).share();
+    }
   }
 
   public extractBody(response: Response) {
-    let body = response.json();
+    const body = response.json();
+    this.user = body;
     console.log('Extract body =' + body);
     return body || {};
   }
