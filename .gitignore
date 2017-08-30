@@ -5,3 +5,5 @@
 /.springBeans
 /.classpath
 /.idea/
+/backend/target/
+/frontend/target/
