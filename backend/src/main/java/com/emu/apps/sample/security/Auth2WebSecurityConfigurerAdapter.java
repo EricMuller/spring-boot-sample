@@ -49,6 +49,13 @@ public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
         return new ClientResources();
     }
 
+    @Bean
+    @ConfigurationProperties("local")
+    public ClientResources local() {
+        return new ClientResources();
+    }
+
+
     @RequestMapping({"/api/user", "/me"})
     public Map<String, String> user(Principal principal) {
         Map<String, String> map = new LinkedHashMap<>();
@@ -59,11 +66,14 @@ public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.antMatcher("/**").authorizeRequests()
-                .antMatchers("/", "/logout**", "/webjars/**", "/**.js", "/*.map", "/assets/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
+        Filter ssoFilter = ssoFilter();
+
+        http
+                //.antMatcher("/login/local?error=access_denied").authorizeRequests().anyRequest().
+                .antMatcher("/**")
+                .authorizeRequests()
+                .antMatchers("/", "/logout**", "/webjars/**", "/**.js", "/*.ico", "/*.map", "/assets/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
                 //.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
@@ -76,7 +86,8 @@ public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
                 .csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and()
-                .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
+                .addFilterBefore(ssoFilter, BasicAuthenticationFilter.class)
+        ;
 
     }
 
@@ -92,17 +103,21 @@ public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
         CompositeFilter filter = new CompositeFilter();
         List<Filter> filters = new ArrayList<>();
         filters.add(ssoFilter(github(), "/login/github"));
+        filters.add(ssoFilter(local(), "/login/local*"));
         filter.setFilters(filters);
+
         return filter;
     }
 
     private Filter ssoFilter(ClientResources client, String path) {
-        OAuth2ClientAuthenticationProcessingFilter oAuth2ClientAuthenticationFilter = new OAuth2ClientAuthenticationProcessingFilter(path);
         OAuth2RestTemplate oAuth2RestTemplate = new OAuth2RestTemplate(client.getClient(), oauth2ClientContext);
-        oAuth2ClientAuthenticationFilter.setRestTemplate(oAuth2RestTemplate);
+
         UserInfoTokenServices tokenServices = new UserInfoTokenServices(client.getResource().getUserInfoUri(),
                 client.getClient().getClientId());
         tokenServices.setRestTemplate(oAuth2RestTemplate);
+
+        OAuth2ClientAuthenticationProcessingFilter oAuth2ClientAuthenticationFilter = new OAuth2ClientAuthenticationProcessingFilter(path);
+        oAuth2ClientAuthenticationFilter.setRestTemplate(oAuth2RestTemplate);
         oAuth2ClientAuthenticationFilter.setTokenServices(tokenServices);
         return oAuth2ClientAuthenticationFilter;
     }

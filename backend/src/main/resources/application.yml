@@ -16,6 +16,17 @@ github:
   resource:
     userInfoUri: https://api.github.com/user
 
+local:
+  client:
+    clientId: moxjkLYOPMsJ0gHVZfJVjYiNNpymhXJS41qYDxfd
+    clientSecret: J8FVJZfzJgDmy9LGuSgWXgrXwbkCCgZRjCBJNBVbEerG2Mgw5W2HdWXt40QJXdBsPT8vgIX4h5gmQlNrttoYSYvucbQ91rmDXlXouPQiyzgU1B3TC40z1RnUyXf6V4IE
+    accessTokenUri: http://127.0.0.1:8000/o/token/
+    userAuthorizationUri: http://127.0.0.1:8000/o/authorize
+    clientAuthenticationScheme: form
+    scope:
+          - profile
+  resource:
+    userInfoUri: http://127.0.0.1:8000/api/v1/user/me/
 
 logging:
   level:

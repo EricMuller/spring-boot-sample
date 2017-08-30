@@ -22,6 +22,10 @@
         <md-icon>content_copy</md-icon>
         login with github
       </a>
+      <a *ngIf="!user"md-menu-item href="/login/local">
+        <md-icon>content_copy</md-icon>
+        login with local django authorization server (8000)
+      </a>
     </md-menu>
 
     <md-toolbar color="primary" role="application">
