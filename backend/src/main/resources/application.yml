@@ -1,3 +1,4 @@
+
 security:
   oauth2:
     client:
@@ -18,8 +19,8 @@ github:
 
 local:
   client:
-    clientId: moxjkLYOPMsJ0gHVZfJVjYiNNpymhXJS41qYDxfd
-    clientSecret: J8FVJZfzJgDmy9LGuSgWXgrXwbkCCgZRjCBJNBVbEerG2Mgw5W2HdWXt40QJXdBsPT8vgIX4h5gmQlNrttoYSYvucbQ91rmDXlXouPQiyzgU1B3TC40z1RnUyXf6V4IE
+    clientId: client_id
+    clientSecret: client_secret
     accessTokenUri: http://127.0.0.1:8000/o/token/
     userAuthorizationUri: http://127.0.0.1:8000/o/authorize
     clientAuthenticationScheme: form
@@ -28,6 +29,53 @@ local:
   resource:
     userInfoUri: http://127.0.0.1:8000/api/v1/user/me/
 
+---
+spring:
+    profiles: dev
+    jpa:
+        database-platform: org.hibernate.dialect.DerbyDialect
+        generate-ddl: false
+        show-sql: false
+        hibernate:
+            ddl-auto: create-drop
+            properties:
+               hibernate:
+                  dialect: org.hibernate.dialect.DerbyDialect
+        properties:
+            hibernate:
+            format_sql: true 
+
+server:
+    address: 127.0.0.1
+
+---
+spring:
+    profiles: prod
+    jpa:
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+      generate-ddl: false
+      show-sql: false
+      hibernate:
+          ddl-auto: none
+          properties:
+              hibernate:
+                  dialect: org.hibernate.dialect.PostgreSQLDialect
+    datasource:
+        driverClassName: org.postgresql.Driver
+        url: jdbc:postgresql://192.168.1.100:5432/mywebmarks2
+        username: mynotes
+        password: mynotes
+     
+
+server:
+    address: 127.0.0.1
+    port: 8080
+
 logging:
-  level:
-    org.springframework.security: DEBUG
+      file: logs/application-debug.log
+      level:
+        root: WARN        
+        org.springframework.web: ERROR
+        org.springframework.security: ERROR
+        org.hibernate: ERROR
+        com.emu.apps: WARN
