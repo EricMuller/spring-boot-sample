@@ -21,13 +21,14 @@ local:
   client:
     clientId: client_id
     clientSecret: client_secret
-    accessTokenUri: http://127.0.0.1:8000/o/token/
-    userAuthorizationUri: http://127.0.0.1:8000/o/authorize
+    accessTokenUri: http://127.0.0.1:8000/login/oauth2/token/
+    userAuthorizationUri: http://127.0.0.1:8000/login/oauth2/authorize
     clientAuthenticationScheme: form
     scope:
           - profile
+          - bookmarks
   resource:
-    userInfoUri: http://127.0.0.1:8000/api/v1/user/me/
+    userInfoUri: http://127.0.0.1:8000/api/v1/accounts/me/
 
 ---
 spring:
