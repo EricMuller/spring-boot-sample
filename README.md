@@ -7,6 +7,6 @@
 ## Build and Run
 
 + mvn clean install
-+ mvn spring-boot:run
-+ test only on http://localhost:8080/  ( cuz Auth2 congfiguration)
++ mvn spring-boot:run or java -jar ./backend/target/spring-boot-sample-backend-0.0.1-SNAPSHOT.jar
++ test only on http://127.0.0.1:8080/  ( cuz Auth2 congfiguration)
 
