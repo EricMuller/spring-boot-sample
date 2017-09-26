@@ -50,8 +50,8 @@ public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
     }
 
     @Bean
-    @ConfigurationProperties("local")
-    public ClientResources local() {
+    @ConfigurationProperties("webmarks")
+    public ClientResources webmarks() {
         return new ClientResources();
     }
 
@@ -103,7 +103,7 @@ public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
         CompositeFilter filter = new CompositeFilter();
         List<Filter> filters = new ArrayList<>();
         filters.add(ssoFilter(github(), "/login/github"));
-        filters.add(ssoFilter(local(), "/login/local*"));
+        filters.add(ssoFilter(webmarks(), "/login/webmarks*"));
         filter.setFilters(filters);
 
         return filter;
