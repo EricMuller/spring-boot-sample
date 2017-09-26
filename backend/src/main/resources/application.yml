@@ -26,6 +26,7 @@ webmarks:
     clientAuthenticationScheme: form
     scope:
           - profile
+          - bookmarks
   resource:
     userInfoUri: http://oauth2.webmarks.net/api/v1/accounts/me/
 
