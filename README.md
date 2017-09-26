@@ -3,7 +3,7 @@
 + Backend with Spring boot
 + Frontend with Angular2 
 + Social Authentification with github (Spring security with sessionid for now)
-+ Social Authentification with oauth2.webmarks.net (user demo: pass demo)
++ Social Authentification with oauth2.webmarks.net (user: oauth2.webmarks.net , pass: demo)
 
 ## Build and Run
 
