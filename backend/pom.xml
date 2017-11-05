@@ -7,8 +7,8 @@
     <artifactId>spring-boot-sample-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>backend</name>
-    <description>Backend Project</description>
+    <name>Backend Project backEnd</name>
+    <description>Spring Boot Backend Project</description>
 
     <parent>
         <groupId>com.emu.apps.sample</groupId>
