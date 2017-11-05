@@ -9,7 +9,24 @@
     <packaging>pom</packaging>
 
     <name>parent</name>
-    <description>Spring Boot Sample</description>
+    <description>Project to demonstrate a Spring Boot Qcm Sample</description>
+    <url>https://github.com/EricMuller/spring-boot-sample</url>
+
+    <scm>
+        <url>https://github.com/EricMuller/spring-boot-sample</url>
+        <connection>scm:git:git://github.com/EricMuller/spring-boot-sample.git</connection>
+        <developerConnection>scm:git:git@github.com:EricMuller/spring-boot-sample.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <email>e.mul@free.fr</email>
+            <name>Eric Muller</name>
+            <url>https://github.com/EricMuller</url>
+            <id>EricMuller</id>
+        </developer>
+    </developers>
+
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -20,8 +37,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <start-class>com.emu.apps.sample.Application</start-class>
-        <java.version>1.7</java.version>
+        <start-class>com.emu.apps.qcm.Application</start-class>
+        <java.version>1.8</java.version>
         <org.mapstruct.version>1.2.0.Beta3</org.mapstruct.version>
     </properties>
 

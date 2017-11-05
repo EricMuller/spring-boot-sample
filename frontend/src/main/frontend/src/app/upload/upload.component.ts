@@ -12,7 +12,7 @@ import {NotifierService} from "../shared/simple-notifier.service";
 })
 export class UploadComponent implements OnInit {
 
-  private apiEndPoint: string = '/api/questions/upload/';
+  private apiEndPoint: string = '/api/questionnaires/upload/';
 
   public sample =
     {
