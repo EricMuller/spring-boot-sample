@@ -101,7 +101,7 @@ public class QuestionRestControllerTest implements RestTemplateHolder {
         // PUT
         first.setResponse(RESPONSE2);
 
-        final ResponseEntity<QuestionDto> responsePut = restTemplate.exchange(createURLWithPort("/api/questions/")
+        final ResponseEntity<QuestionDto> responsePut = restTemplate.exchange(createURLWithPort("/api/v1/questions/")
                 , HttpMethod.PUT,
                 new HttpEntity<>(responseDtoGet), QuestionDto.class);
 
