@@ -5,15 +5,17 @@ import {FormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 // material
 import {
-  MdButtonModule,
-  MdCheckboxModule,
-  MdIconModule,
-  MdInputModule,
-  MdMenuModule,
-  MdSelectModule,
-  MdSnackBarModule,
-  MdToolbarModule
+  MatButtonModule,
+  MatCheckboxModule,
+  MatIconModule,
+  MatInputModule,
+  MatMenuModule,
+  MatSelectModule,
+  MatSnackBarModule,
+  MatToolbarModule,
+  MatListModule
 } from '@angular/material';
+
 import {RouterModule} from '@angular/router';
 import {QuestionComponent} from './question/question/question.component';
 // application
@@ -25,12 +27,12 @@ import {UserService} from 'app/auth/user.service'
 import {UserGuardService} from 'app/auth/user-guard.service'
 /* shared*/
 import {NotifierService} from './shared/simple-notifier.service';
-import {HttpModule} from '@angular/http';
-import {HTTP_PROVIDER} from './shared/custom.http.provider';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http'
 import {ROUTES_CONFIG} from './config/app.routes.config';
 /* boostrap*/
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { CookieService } from 'ngx-cookie-service';
+// import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {CookieService} from 'ngx-cookie-service';
+import {JWTInterceptor} from './shared/JWTInterceptor.http';
 
 @NgModule({
   declarations: [
@@ -41,23 +43,25 @@ import { CookieService } from 'ngx-cookie-service';
 
   ],
   imports: [
-    NgbModule.forRoot(),
+   // NgbModule.forRoot(),
     BrowserModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     BrowserAnimationsModule,
-    MdButtonModule,
-    MdCheckboxModule,
-    MdToolbarModule,
-    MdSelectModule,
-    MdIconModule,
-    MdInputModule,
-    MdMenuModule,
-    MdSnackBarModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatToolbarModule,
+    MatSelectModule,
+    MatIconModule,
+    MatInputModule,
+    MatMenuModule,
+    MatSnackBarModule,
+    MatListModule,
     RouterModule,
     RouterModule.forRoot(ROUTES_CONFIG)
   ],
-  providers: [QuestionService, NotifierService, HTTP_PROVIDER, UserService, UserGuardService, CookieService ],
+  providers: [QuestionService, NotifierService, UserService, UserGuardService, CookieService,
+    {provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

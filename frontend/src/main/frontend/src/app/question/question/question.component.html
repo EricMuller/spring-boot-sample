@@ -1,9 +1,9 @@
 <!--
-<md-input-container class="example-full-width">
+<mat-input-container class="example-full-width">
   <input mdInput  value="{{number}}" (keyup)="onKey($event)" >
-</md-input-container>
-<button md-icon-button (click) ="previous()"> <md-icon>skip_previous</md-icon> </button>
-<button md-icon-button (click) ="next()"> <md-icon>skip_next</md-icon> </button>
+</mat-input-container>
+<button mat--button (click) ="previous()"> <mat->skip_previous</mat-> </button>
+<button mat--button (click) ="next()"> <mat->skip_next</mat-> </button>
 
 <a  routerLink="upload" >Upload</a>
 
@@ -11,13 +11,13 @@
 
   <span class="fill-remaining-space" >
 
-  <md-select placeholder="Select a Categorie"  style="width: 300px"
+  <mat-select placeholder="Select a Categorie"  style="width: 300px"
              [(ngModel)]="categorie" [ngModelOptions]="{standalone: true}"
              (change)="onCategorieSelect()">
-    <md-option *ngFor="let categ of categories"  [value]="categ.value">
+    <mat-option *ngFor="let categ of categories"  [value]="categ.value">
       {{categ.viewValue}}
-    </md-option>
-  </md-select>
+    </mat-option>
+  </mat-select>
     </span>
 </div>
 <div *ngIf="question" style="padding: 10px">
@@ -26,31 +26,32 @@
 </div>-->
 <!--<div *ngFor="let categ of categories">{{categ}}</div>-->
 
-    <md-toolbar>
-      <span *ngIf="!showResult">Questions</span>
-      <span class="fill-remaining-space"></span>
-      <span>
-        <button md-raised-button mdTooltip="Search" (click)="search()">
-            <md-icon>search</md-icon> Search
+<mat-toolbar>
+  <span *ngIf="!showResult">Questions</span>
+  <span class="fill-remaining-space"></span>
+  <span>
+        <button mat-raised-button mdTooltip="Search" (click)="search()">
+            <mat-icon>search</mat-icon> Search
         </button>
       </span>
-    </md-toolbar>
+</mat-toolbar>
 
-    <md-nav-list>
-      <md-list-item *ngFor="let question of questions">
-        <div style="margin-right: 0px">
-          <div>
-            <a md-icon-button style="max-width: 600px;overflow: hidden" mdTooltip="Edit Bookmark">
-              <md-icon color="primary">create</md-icon>
-            </a>
-          </div>
+<mat-nav-list>
+  <mat-list-item *ngFor="let question of questions">
+    <div style="margin-right: 0px">
+      <div>
+        <a mat-icon-button style="max-width: 600px;overflow: hidden" matTooltip="Edit Bookmark">
+          <mat-icon color="primary">create</mat-icon>
+        </a>
+      </div>
 
-        </div>
-        <span class="fill-remaining-space"></span>
-        <span>{{question.question}}</span>
-      </md-list-item>
-      <md-divider></md-divider>
-    </md-nav-list>
+    </div>
+    <span class="fill-remaining-space"></span>
+    <span>{{question.question}}</span>
+  </mat-list-item>
+
+  <mat-divider></mat-divider>
+</mat-nav-list>
 
 
 

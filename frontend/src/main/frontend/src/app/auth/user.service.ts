@@ -3,9 +3,9 @@ import {Response} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import {User} from 'app/auth/user.model';
 
-import {CustomHttp} from '../shared/custom.http';
 import {Subject} from 'rxjs/Subject';
 import {CookieService} from 'ngx-cookie-service';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class UserService {
@@ -14,7 +14,7 @@ export class UserService {
 
   private subject = new Subject<User>();
 
-  constructor(private http: CustomHttp, private coockieService: CookieService) {
+  constructor(private http: HttpClient, private coockieService: CookieService) {
   }
 
   public clearUser(): void {
@@ -30,9 +30,7 @@ export class UserService {
 
   public getCurrentUser(): Observable<User> {
     if (this.user == null) {
-      debugger
       this.http.get('/api/user')
-        .map(this.extractBody)
         .catch(this.handleError).subscribe((user => {
           this.user = user;
           this.subject.next(user);
@@ -47,13 +45,6 @@ export class UserService {
       return Observable.of(this.user);
     }
 
-  }
-
-
-  public extractBody(response: Response) {
-    const body = response.json();
-    console.log('Extract body =' + body);
-    return body || {};
   }
 
   public handleError(error: Response | any): Observable<any> {
