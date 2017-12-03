@@ -1,29 +1,22 @@
 package com.emu.apps.qcm.rest;
 
-import com.emu.apps.qcm.services.QuestionnaireService;
-import com.emu.apps.qcm.services.dtos.FileQuestionDto;
-import com.emu.apps.qcm.services.dtos.MessageDto;
-import com.emu.apps.qcm.services.dtos.QuestionnaireDto;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
+import com.emu.apps.qcm.services.*;
+import com.emu.apps.qcm.services.dtos.*;
+import com.fasterxml.jackson.databind.*;
+import io.swagger.annotations.*;
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
+import org.springframework.security.access.annotation.*;
+import org.springframework.security.access.prepost.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.*;
 
-import java.io.IOException;
+import java.io.*;
 
 @RestController
-@RequestMapping("api/questionnaires")
-@Api(value = "fiche-store", description = "All operations ", tags = "Questionnaires")
+@RequestMapping("/api/v1/questionnaires")
+@Api(value = "questionnaire-store", description = "All operations ", tags = "Questionnaires")
 public class QuestionnaireRestController {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -31,7 +24,7 @@ public class QuestionnaireRestController {
     @Autowired
     private QuestionnaireService questionnairesService;
 
-    @ApiOperation(value = "upload a questionnaire json file", response = ResponseEntity.class)
+    @ApiOperation(value = "upload a questionnaire json file", responseContainer = "ResponseEntity", response = MessageDto.class, tags = "Questionnaires")
     @RequestMapping(value = "/upload", method = RequestMethod.POST, headers = "Content-Type= multipart/form-data", produces = "application/json")
     @ResponseBody
     @Secured("ROLE_USER")
@@ -48,7 +41,7 @@ public class QuestionnaireRestController {
         return new ResponseEntity<>(new MessageDto("Ok"), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Find all questionnaires", response = Iterable.class)
+    @ApiOperation(value = "Find all questionnaires", responseContainer = "List", response = QuestionDto.class, tags = "Questionnaires")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved list"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),

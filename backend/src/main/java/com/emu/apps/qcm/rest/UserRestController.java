@@ -7,8 +7,8 @@ import java.security.*;
 import java.util.*;
 
 @RestController
-@Api(value = "user-store", description = "All operations ", tags = "users")
-@RequestMapping("api/user")
+@Api(value = "user-store", description = "All operations ", tags = "Users")
+@RequestMapping("/api/v1/users/me")
 public class UserRestController {
     
     @ApiOperation(value = "get Current user", response = Map.class)

@@ -1,22 +1,18 @@
 package com.emu.apps.qcm.rest;
 
-import com.emu.apps.qcm.services.CategoryService;
-import com.emu.apps.qcm.services.dtos.CategoryDto;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import com.emu.apps.qcm.services.*;
+import com.emu.apps.qcm.services.dtos.*;
+import io.swagger.annotations.*;
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.access.prepost.*;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by eric on 05/06/2017.
  */
 @RestController
-@RequestMapping("api/categories")
+@RequestMapping("/api/v1/categories")
 @Api(value = "category-store", description = "All operations ", tags = "Categories")
 public class CategoryRestController {
 
@@ -25,15 +21,14 @@ public class CategoryRestController {
     @Autowired
     private CategoryService categoryService;
 
-
-    @ApiOperation(value = "Find a category by ID", response = CategoryDto.class)
+    @ApiOperation(value = "Find a category by ID", response = CategoryDto.class, tags = "Categories")
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     @ResponseBody
     public CategoryDto getCategory(@PathVariable("id") Long id) {
         return categoryService.findById(id);
     }
 
-    @ApiOperation(value = "Find all categories", response = Iterable.class)
+    @ApiOperation(value = "Find all categories",responseContainer = "List", response = CategoryDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved list"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),

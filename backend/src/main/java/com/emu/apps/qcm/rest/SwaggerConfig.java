@@ -2,6 +2,11 @@ package com.emu.apps.qcm.rest;
 
 import com.google.common.collect.*;
 import org.springframework.context.annotation.*;
+import org.springframework.data.rest.core.annotation.*;
+import org.springframework.data.rest.core.config.*;
+import org.springframework.data.rest.core.mapping.*;
+import org.springframework.data.rest.webmvc.config.*;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.builders.*;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.*;
@@ -12,10 +17,13 @@ import springfox.documentation.swagger2.annotations.*;
 
 import java.util.*;
 
+import static com.google.common.base.Predicates.*;
 import static springfox.documentation.builders.PathSelectors.*;
+import static springfox.documentation.builders.RequestHandlerSelectors.*;
 
 @Configuration
 @EnableSwagger2
+@Import({springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration.class})
 public class SwaggerConfig {
 
     @Bean
@@ -24,13 +32,30 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public RepositoryRestConfigurer repositoryRestConfigurer() {
+
+        return new RepositoryRestConfigurerAdapter() {
+
+            @Override
+            public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
+                config.setRepositoryDetectionStrategy(
+                        RepositoryDetectionStrategy.RepositoryDetectionStrategies.ANNOTATED);
+            }
+        };
+    }
+
+    @Bean
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.emu.apps.qcm.rest"))
-                //.paths(regex("/bookmarks.*"))
-                .paths(regex("/api.*"))
-                .build().enable(true)
+                .apis(or(withClassAnnotation(RestController.class),        // business services
+                        withClassAnnotation(RepositoryRestResource.class))
+                )
+                //RequestHandlerSelectors.basePackage("com.emu.apps.qcm"))
+                .paths(regex("/api/v1.*"))
+                .paths(PathSelectors.any())
+                .build()
+                .enable(true)
                 .apiInfo(metaData())
                 .securityContexts(Lists.newArrayList(securityContext()))
                 .securitySchemes(Lists.newArrayList(apiKey()))
@@ -46,7 +71,7 @@ public class SwaggerConfig {
     private SecurityContext securityContext() {
         return SecurityContext.builder()
                 .securityReferences(defaultAuth())
-                .forPaths(PathSelectors.regex("/anyPath.*"))
+                .forPaths(regex("/anyPath.*"))
                 .build();
     }
 
@@ -67,7 +92,7 @@ public class SwaggerConfig {
                 "Terms of service",
                 new Contact("Eric MULLER", "https://webmarks.net/questionnaires/api", "e.mul@free.fr"),
                 "Apache License Version 2.0",
-                "https://www.apache.org/licenses/LICENSE-2.0");
+                "https://www.apache.org/licenses/LICENSE-2.0", Lists.newArrayList());
         return apiInfo;
     }
 

@@ -16,7 +16,7 @@ export class QuestionService {
   }
 
   public search() {
-    return this.http.get('/api/questions')
+    return this.http.get('/api/v1/questions')
       .catch(this.handleError).share();
   }
 

@@ -58,7 +58,7 @@ public class QuestionnaireRestControllerTest implements RestTemplateHolder {
         MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
         map.add("file", resource);
 
-        final ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/api/questionnaires/upload"), HttpMethod.POST,
+        final ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/api/v1/questionnaires/upload"), HttpMethod.POST,
                 new HttpEntity<>(map), String.class);
 
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);

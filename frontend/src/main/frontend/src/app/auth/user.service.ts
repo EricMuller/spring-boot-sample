@@ -30,7 +30,7 @@ export class UserService {
 
   public getCurrentUser(): Observable<User> {
     if (this.user == null) {
-      this.http.get('/api/user')
+      this.http.get('/api/v1/users/me')
         .catch(this.handleError).subscribe((user => {
           this.user = user;
           this.subject.next(user);

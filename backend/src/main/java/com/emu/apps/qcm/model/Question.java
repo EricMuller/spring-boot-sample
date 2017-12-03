@@ -1,12 +1,13 @@
 package com.emu.apps.qcm.model;
 
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import io.swagger.annotations.*;
+import org.hibernate.annotations.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+import javax.persistence.Entity;
+import java.util.*;
 
 /**
  * Created by eric on 05/06/2017.
@@ -18,6 +19,7 @@ public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(notes = "The database generated Question ID")
     private Long id;
 
     @Version

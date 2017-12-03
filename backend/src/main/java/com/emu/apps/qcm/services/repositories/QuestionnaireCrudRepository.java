@@ -1,7 +1,7 @@
 package com.emu.apps.qcm.services.repositories;
 
-import com.emu.apps.qcm.model.Questionnaire;
-import org.springframework.data.repository.CrudRepository;
+import com.emu.apps.qcm.model.*;
+import org.springframework.data.repository.*;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface QuestionnaireCrudRepository extends CrudRepository<Questionnaire, Long> {
-
 
 
 }

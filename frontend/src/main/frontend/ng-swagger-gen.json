@@ -1,0 +1,8 @@
+{
+  "$schema": "./node_modules/ng-swagger-gen/ng-swagger-gen-schema.json",
+  "swagger": "swagger-v1.json",
+  "includeTags": [
+    "Categories", "Questionnaires","Questions","Users"
+  ],
+  "apiModule": false
+}

@@ -1,0 +1,529 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Questionnaire REST API for webmarks.net",
+    "version": "1.0",
+    "title": "Questionnaire REST API",
+    "termsOfService": "Terms of service",
+    "contact": {
+      "name": "Eric MULLER",
+      "url": "https://webmarks.net/questionnaires/api",
+      "email": "e.mul@free.fr"
+    },
+    "license": {
+      "name": "Apache License Version 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Categories",
+      "description": "All operations "
+    },
+    {
+      "name": "Questionnaires",
+      "description": "All operations "
+    },
+    {
+      "name": "Users",
+      "description": "All operations "
+    },
+    {
+      "name": "Questions",
+      "description": "All operations "
+    }
+  ],
+  "paths": {
+    "/api/v1/categories": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Find all categories",
+        "operationId": "getCategoriesUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved list",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Category"
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authorized to view the resource"
+          },
+          "403": {
+            "description": "Accessing the resource you were trying to reach is forbidden"
+          },
+          "404": {
+            "description": "The resource you were trying to reach is not found"
+          }
+        }
+      }
+    },
+    "/api/v1/categories/{id}": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Find a category by ID",
+        "operationId": "getCategoryUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/questionnaires": {
+      "get": {
+        "tags": [
+          "Questionnaires"
+        ],
+        "summary": "Find all questionnaires",
+        "operationId": "getQuestionnairesUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved list",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Question"
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authorized to view the resource"
+          },
+          "403": {
+            "description": "Accessing the resource you were trying to reach is forbidden"
+          },
+          "404": {
+            "description": "The resource you were trying to reach is not found"
+          }
+        }
+      }
+    },
+    "/api/v1/questionnaires/upload": {
+      "post": {
+        "tags": [
+          "Questionnaires"
+        ],
+        "summary": "upload a questionnaire json file",
+        "operationId": "uploadQuestionFileUsingPOST",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "file",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/questions": {
+      "get": {
+        "tags": [
+          "Questions"
+        ],
+        "summary": "Find all questions",
+        "operationId": "getQuestionsUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "questionnaireId",
+            "in": "query",
+            "description": "questionnaireId",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "categorieId",
+            "in": "query",
+            "description": "categorieId",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved list",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Question"
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authorized to view the resource"
+          },
+          "403": {
+            "description": "Accessing the resource you were trying to reach is forbidden"
+          },
+          "404": {
+            "description": "The resource you were trying to reach is not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Questions"
+        ],
+        "summary": "Save a question",
+        "operationId": "saveQuestionUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "questionDto",
+            "description": "questionDto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Question"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Question"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Questions"
+        ],
+        "summary": "Update a question",
+        "operationId": "updateQuestionUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "questionDto",
+            "description": "questionDto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Question"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Question"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/questions/{id}": {
+      "get": {
+        "tags": [
+          "Questions"
+        ],
+        "summary": "Find a question by ID",
+        "operationId": "getQuestionUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Question"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/users/me": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "get Current user",
+        "operationId": "userUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "Authorization": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "libelle": {
+          "type": "string"
+        }
+      }
+    },
+    "Iterable«Category»": {
+      "type": "object"
+    },
+    "Iterable«QuestionnaireDto»": {
+      "type": "object"
+    },
+    "Iterable«Question»": {
+      "type": "object"
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Question": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "$ref": "#/definitions/Category"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The database generated product ID"
+        },
+        "question": {
+          "type": "string"
+        },
+        "responses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response"
+          }
+        },
+        "version": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "Questionnaire": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "questions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Question"
+          }
+        }
+      }
+    },
+    "QuestionnaireDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "questions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Question"
+          }
+        }
+      }
+    },
+    "Response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "response": {
+          "type": "string"
+        },
+        "true": {
+          "type": "boolean"
+        },
+        "version": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    }
+  }
+}

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("bookmarks")
+@RequestMapping("/api/v0/bookmarks")
 @Api(value="bookmark-store", description="Operations on bookmarks Store")
 public class BookmarkRestController {
     protected final Logger logger = LoggerFactory.getLogger(getClass());

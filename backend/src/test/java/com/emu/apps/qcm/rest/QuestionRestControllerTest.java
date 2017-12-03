@@ -72,7 +72,7 @@ public class QuestionRestControllerTest implements RestTemplateHolder {
 
         questionDto.setResponses(Lists.newArrayList(responseDto));
 
-        final ResponseEntity<QuestionDto> response = restTemplate.exchange(createURLWithPort("/api/questions/")
+        final ResponseEntity<QuestionDto> response = restTemplate.exchange(createURLWithPort("/api/v1/questions/")
                 , HttpMethod.POST,
                 new HttpEntity<>(questionDto), QuestionDto.class);
 
@@ -81,7 +81,7 @@ public class QuestionRestControllerTest implements RestTemplateHolder {
         assertThat(response.getBody().getResponses()).isNotNull().isNotEmpty();
 
         // GET
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(createURLWithPort("/api/questions/{id}"));
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(createURLWithPort("/api/v1/questions/{id}"));
         HttpEntity<?> entity = new HttpEntity<>(headers);
         // restTemplate.getForEntity(builder.build().encode().toUri(), QuestionDto.class);
         final ResponseEntity<QuestionDto> responseGet = restTemplate.exchange(

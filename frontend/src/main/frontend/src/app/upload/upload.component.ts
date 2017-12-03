@@ -10,7 +10,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class UploadComponent implements OnInit {
 
-  private apiEndPoint: string = '/api/questionnaires/upload/';
+  private apiEndPoint: string = '/api/v1/questionnaires/upload/';
 
   public sample =
     {

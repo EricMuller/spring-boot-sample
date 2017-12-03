@@ -55,6 +55,11 @@ logging:
         org.hibernate.type.descriptor.sql: DEBUG
         com.emu.apps: WARN
 
+spring1:
+  data:
+    rest:
+      base-path: /apis
+      detection-strategy: annotated
 
 ---
 spring:

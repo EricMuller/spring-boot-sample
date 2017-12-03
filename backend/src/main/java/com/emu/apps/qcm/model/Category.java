@@ -1,9 +1,8 @@
 package com.emu.apps.qcm.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import io.swagger.annotations.*;
+
+import javax.persistence.*;
 
 /**
  * Created by eric on 05/06/2017.
@@ -13,6 +12,7 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+    @ApiModelProperty(notes = "The database generated Category ID")
     private Long id;
 
     private String libelle;

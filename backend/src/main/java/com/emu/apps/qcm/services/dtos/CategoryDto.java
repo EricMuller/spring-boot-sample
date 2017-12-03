@@ -1,10 +1,12 @@
 package com.emu.apps.qcm.services.dtos;
 
 
+import io.swagger.annotations.*;
+
 /**
  * Created by eric on 05/06/2017.
  */
-
+@ApiModel(value = "Category")
 public class CategoryDto {
 
     private String id;

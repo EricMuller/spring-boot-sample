@@ -1,11 +1,13 @@
 package com.emu.apps.qcm.services.dtos;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.*;
+import io.swagger.annotations.*;
 
 /**
  * Created by eric on 05/06/2017.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ApiModel(value = "Response")
 public class ResponseDto {
 
     private Long id;

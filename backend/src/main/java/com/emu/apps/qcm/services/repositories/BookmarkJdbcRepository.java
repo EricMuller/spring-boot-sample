@@ -1,18 +1,14 @@
 package com.emu.apps.qcm.services.repositories;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
-import com.emu.apps.qcm.model.Bookmark;
+import com.emu.apps.qcm.model.*;
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.jdbc.core.*;
+import org.springframework.stereotype.*;
+import org.springframework.util.*;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 
 @Repository
 public class BookmarkJdbcRepository {
