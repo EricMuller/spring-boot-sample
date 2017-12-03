@@ -9,6 +9,8 @@ public class QuestionDto {
 
     private Long id;
 
+    private Long version;
+
     private String question;
 
     private CategoryDto category;
@@ -45,5 +47,13 @@ public class QuestionDto {
 
     public void setResponses(List<ResponseDto> responses) {
         this.responses = responses;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

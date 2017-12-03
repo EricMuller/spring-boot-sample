@@ -3,30 +3,55 @@ import {Response} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import {User} from 'app/auth/user.model';
 
-
 import {CustomHttp} from '../shared/custom.http';
+import {Subject} from 'rxjs/Subject';
+import {CookieService} from 'ngx-cookie-service';
 
 @Injectable()
 export class UserService {
 
-  public user: User;
+  private user: User;
 
-  constructor(private http: CustomHttp) {
+  private subject = new Subject<User>();
+
+  constructor(private http: CustomHttp, private coockieService: CookieService) {
   }
+
+  public clearUser(): void {
+    this.user = null;
+    this.subject.next();
+    this.coockieService.delete('Authorization', '/');
+  }
+
+  public getUser(): User {
+    return this.user;
+  }
+
 
   public getCurrentUser(): Observable<User> {
-    if (this.user != null) {
-      return Observable.of(this.user);
-    } else {
-      return this.http.get('/api/user')
+    if (this.user == null) {
+      debugger
+      this.http.get('/api/user')
         .map(this.extractBody)
-        .catch(this.handleError).share();
+        .catch(this.handleError).subscribe((user => {
+          this.user = user;
+          this.subject.next(user);
+        }),
+        error => {
+          this.user = null;
+          this.subject.next();
+        }
+      );
+      return this.subject.asObservable();
+    } else {
+      return Observable.of(this.user);
     }
+
   }
+
 
   public extractBody(response: Response) {
     const body = response.json();
-    this.user = body;
     console.log('Extract body =' + body);
     return body || {};
   }

@@ -14,6 +14,8 @@ public class ResponseDto {
 
     private Boolean isTrue;
 
+    private Long version;
+
     public Long getId() {
         return id;
     }
@@ -36,5 +38,13 @@ public class ResponseDto {
 
     public void setTrue(Boolean aTrue) {
         isTrue = aTrue;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

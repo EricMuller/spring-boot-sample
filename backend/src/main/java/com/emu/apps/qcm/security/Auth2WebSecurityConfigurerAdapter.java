@@ -1,43 +1,30 @@
 package com.emu.apps.qcm.security;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InjectionPoint;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.Http401AuthenticationEntryPoint;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.Scope;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.oauth2.client.OAuth2ClientContext;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
-import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
-import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.filter.CompositeFilter;
+import org.slf4j.*;
+import org.springframework.beans.factory.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.boot.autoconfigure.security.*;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.*;
+import org.springframework.boot.context.properties.*;
+import org.springframework.boot.web.servlet.*;
+import org.springframework.context.annotation.*;
+import org.springframework.core.annotation.*;
+import org.springframework.security.config.annotation.web.builders.*;
+import org.springframework.security.config.annotation.web.configuration.*;
+import org.springframework.security.config.http.*;
+import org.springframework.security.oauth2.client.*;
+import org.springframework.security.oauth2.client.filter.*;
+import org.springframework.security.oauth2.client.token.grant.code.*;
+import org.springframework.security.oauth2.config.annotation.web.configuration.*;
+import org.springframework.security.web.authentication.*;
+import org.springframework.security.web.authentication.www.*;
+import org.springframework.security.web.csrf.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.filter.*;
 
-import javax.servlet.Filter;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.*;
+import java.util.*;
 
 @EnableWebSecurity
 @Configuration
@@ -47,8 +34,13 @@ import java.util.Map;
 @Profile(value = {"development", "production"})
 public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private OAuth2ClientContext oauth2ClientContext;
+    @Autowired
+    private JwtTokenAuthenticationService jwtTokenAuthenticationService;
+    @Autowired
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Bean
     @ConfigurationProperties("github")
@@ -62,44 +54,52 @@ public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
         return new ClientResources();
     }
 
-
     @Bean
     @Scope("prototype")
-    Logger logger(InjectionPoint injectionPoint){
+    Logger logger(InjectionPoint injectionPoint) {
         return LoggerFactory.getLogger(injectionPoint.getMethodParameter().getContainingClass());
     }
 
-    @RequestMapping({"/api/user", "/me"})
-    public Map<String, String> user(Principal principal) {
-        Map<String, String> map = new LinkedHashMap<>();
-        map.put("name", principal.getName());
-        return map;
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/assets/**", "/v2/api-docs", "/swagger-resources/configuration/ui", "/configuration/ui"
+                , "/swagger-resources**", "/swagger-resources/configuration/security", "/swagger-ui.html", "/webjars/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        Filter ssoFilter = ssoFilter();
+        Filter oauth2LoginFilter = oauth2ClientFilter();
 
         http
                 //.antMatcher("/login/local?error=access_denied").authorizeRequests().anyRequest().
                 .antMatcher("/**")
                 .authorizeRequests()
-                .antMatchers("/", "/logout**", "/webjars/**", "/**.js", "/*.ico", "/*.map", "/assets/**").permitAll()
+                .antMatchers("/", "/webjars/**", "/**.js", "/*.ico", "/*.map", "/assets/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
                 //.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
-                .authenticationEntryPoint(new Http401AuthenticationEntryPoint("Session realm=\"JSESSIONID\""))
+                .authenticationEntryPoint(new Http401AuthenticationEntryPoint("Bearer"))
                 .and()
-                .logout()
+                /*.logout()
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID", JwtTokenCst.HEADER_AUTHORIZATION)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/").permitAll()
-                .and()
+                .and() */
+                //.httpBasic().disable()
+                //.formLogin().disable()
                 .csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and()
-                .addFilterBefore(ssoFilter, BasicAuthenticationFilter.class)
+                // auth2 login
+                .addFilterBefore(oauth2LoginFilter, BasicAuthenticationFilter.class)
+                // jwt Token based authentication based on the header previously given to the client
+                .addFilterBefore(new JwtAuthentificationFilter(jwtTokenAuthenticationService), UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
         ;
 
     }
@@ -112,17 +112,17 @@ public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
         return registration;
     }
 
-    private Filter ssoFilter() {
+    private Filter oauth2ClientFilter() {
         CompositeFilter filter = new CompositeFilter();
         List<Filter> filters = new ArrayList<>();
-        filters.add(ssoFilter(github(), "/login/github"));
-        filters.add(ssoFilter(webmarks(), "/login/webmarks*"));
+        filters.add(oauth2ClientFilter(github(), "/login/github"));
+        filters.add(oauth2ClientFilter(webmarks(), "/login/webmarks"));
         filter.setFilters(filters);
 
         return filter;
     }
 
-    private Filter ssoFilter(ClientResources client, String path) {
+    private Filter oauth2ClientFilter(ClientResources client, String path) {
         OAuth2RestTemplate oAuth2RestTemplate = new OAuth2RestTemplate(client.getClient(), oauth2ClientContext);
 
         UserInfoTokenServices tokenServices = new UserInfoTokenServices(client.getResource().getUserInfoUri(),
@@ -132,6 +132,7 @@ public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
         OAuth2ClientAuthenticationProcessingFilter oAuth2ClientAuthenticationFilter = new OAuth2ClientAuthenticationProcessingFilter(path);
         oAuth2ClientAuthenticationFilter.setRestTemplate(oAuth2RestTemplate);
         oAuth2ClientAuthenticationFilter.setTokenServices(tokenServices);
+        oAuth2ClientAuthenticationFilter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
         return oAuth2ClientAuthenticationFilter;
     }
 

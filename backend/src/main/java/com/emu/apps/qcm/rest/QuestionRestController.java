@@ -39,6 +39,8 @@ public class QuestionRestController {
         return questionService.findOne(id);
     }
 
+
+
     @ApiOperation(value = "Find all questions", response = Iterable.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved list"),
@@ -61,6 +63,8 @@ public class QuestionRestController {
         }
         return questionService.findAll();
     }
+
+
 
     @ApiOperation(value = "Update a question", response = Question.class)
     @RequestMapping(method = RequestMethod.PUT)

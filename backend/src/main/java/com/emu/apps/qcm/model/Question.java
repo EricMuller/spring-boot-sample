@@ -1,5 +1,9 @@
 package com.emu.apps.qcm.model;
 
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +21,7 @@ public class Question {
     private Long id;
 
     @Version
-    private Long version;
+    private Long  version;
 
     private Long number;
 
@@ -30,10 +34,12 @@ public class Question {
     @Column(name = "CREATED_DATE")
     private Date date;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.JOIN)
     private Category category;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Response> responses;
 
     public Question() {
@@ -104,5 +110,13 @@ public class Question {
 
     public void setQuestionnaire(Questionnaire questionnaire) {
         this.questionnaire = questionnaire;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

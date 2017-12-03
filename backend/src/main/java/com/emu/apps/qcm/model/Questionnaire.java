@@ -1,5 +1,7 @@
 package com.emu.apps.qcm.model;
 
+import org.hibernate.annotations.BatchSize;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class Questionnaire {
     private String name;
 
     @OneToMany(cascade=CascadeType.ALL)
+    @BatchSize(size = 20)
     private List<Question> questions;
 
     public Questionnaire(String name) {

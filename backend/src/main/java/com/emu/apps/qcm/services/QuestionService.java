@@ -35,10 +35,13 @@ public class QuestionService {
         return questionMapper.modelToDto(questionRepository.findOne(id));
     }
 
+    @Transactional()
     public QuestionDto updateQuestion(QuestionDto questionDto) {
-        return questionDto;
+        Question question = questionMapper.dtoToModel(questionDto);
+        return questionMapper.modelToDto(questionRepository.save(question));
     }
 
+    @Transactional()
     public QuestionDto saveQuestion(QuestionDto questionDto) {
         Question question = questionMapper.dtoToModel(questionDto);
         return questionMapper.modelToDto(questionRepository.save(question));

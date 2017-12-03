@@ -1,11 +1,25 @@
 
+server:
+  address: 127.0.0.1
+  port: 8080
+ # context-path: /client
+
+
 security:
+  jwt:
+    prefix: Bearer
+    http-header-name: Authorization
+
   oauth2:
     client:
       client-id: acme
       client-secret: acmesecret
+      access-token-uri: http://localhost:8080/oauth/token
+      user-authorization-uri: http://localhost:8080/oauth/authorize
       scope: read,write
       auto-approve-scopes: '.*'
+    resource:
+      user-info-uri: http://localhost:8080/me
 
 github:
   client:
@@ -38,7 +52,7 @@ logging:
         org.springframework.security: ERROR
         org.hibernate: ERROR
         org.hibernate.SQL: DEBUG
-        org.hibernate.type.descriptor.sql: WARN
+        org.hibernate.type.descriptor.sql: DEBUG
         com.emu.apps: WARN
 
 
@@ -55,14 +69,11 @@ spring:
                hibernate:
                   dialect: org.hibernate.dialect.DerbyDialect
         properties:
-            hibernate:
               #use_sql_comments: true
               #show_sql: true
-              #format_sql: true
+              format_sql: true
 
 
-server:
-    address: 127.0.0.1
 
 ---
 spring:
@@ -74,9 +85,16 @@ spring:
       hibernate:
           # dll-auto: none
           ddl-auto: create-drop
+          dialect: org.hibernate.dialect.PostgreSQLDialect
           properties:
               hibernate:
-                  dialect: org.hibernate.dialect.PostgreSQLDialect
+                 generate_statistics: true
+                 order_inserts: true
+                 order_updates: true
+                 jdbc:
+                     batch_size: 200
+                     batch_versioned_data: true
+
     datasource:
         driverClassName: org.postgresql.Driver
         url: jdbc:postgresql://192.168.1.100:5432/qcm
@@ -84,8 +102,6 @@ spring:
         password: mynotes
      
 
-server:
-    address: localhost
-    port: 8080
+
 
 

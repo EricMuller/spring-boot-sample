@@ -1,30 +1,46 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from 'app/auth/user.service'
-import {User} from 'app/auth/user.model'
-import {Observable} from 'rxjs/Observable';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
-  public title = 'Welcome to my  Application Sample ';
+
+  public title;
+
+  private subscription: Subscription;
 
   constructor(private userService: UserService) {
+
+    const MESSAGE = 'Welcome to my  Application Sample ';
+
+
+    this.subscription = this.userService.getCurrentUser()
+      .subscribe((user) => {
+          if (user) {
+            this.title = 'welcome ' + user.name;
+          } else {
+            this.title = MESSAGE;
+          }
+        },
+        (error) => {
+          this.title = MESSAGE;
+        }
+      )
+
   }
 
   ngOnInit() {
-    const obs: Observable<User> = this.userService.getCurrentUser();
 
-    obs.subscribe((user) => {
-        this.title = 'welcome ' + user.name;
-      },
-      (error) => {
-        this.title = 'Welcome to my  Social Application Sample ';
-      }
-    )
+  }
+
+  public ngOnDestroy() {
+    // unsubscribe to ensure no memory leaks
+    this.subscription.unsubscribe();
   }
 
 }

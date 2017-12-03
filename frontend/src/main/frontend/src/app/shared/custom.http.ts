@@ -2,14 +2,16 @@ import {Injectable} from '@angular/core';
 import {ConnectionBackend, Headers, Http, RequestOptions, RequestOptionsArgs} from '@angular/http';
 import {NotifierService} from 'app/shared/simple-notifier.service'
 import {Observable} from 'rxjs/Rx';
+import {CookieService} from 'ngx-cookie-service';
 import 'rxjs/add/operator/timeout'
 
 @Injectable()
 export class CustomHttp extends Http {
-  constructor(backend: ConnectionBackend, defaultOptions: RequestOptions, private notifierService: NotifierService) {
-    super(backend, defaultOptions);
 
-  }
+  constructor(backend: ConnectionBackend, defaultOptions: RequestOptions, private  notifierService: NotifierService,
+              private cookieService: CookieService) {
+    super(backend, defaultOptions);
+   }
 
   get(url: string, timeout?: number, options?: RequestOptionsArgs): Observable<any> {
     console.log('Before the get request...');
@@ -116,10 +118,12 @@ export class CustomHttp extends Http {
 
   public jwt(options?: RequestOptionsArgs): RequestOptionsArgs {
     // create authorization header with token
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser && currentUser.token) {
+    const token = this.cookieService.get('Authorization')
+    // const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (token) {
+      // if (currentUser && currentUser.token) {
       // Bearer
-      const headers = new Headers({'Authorization': 'Token ' + currentUser.token});
+      const headers = new Headers({'Authorization': 'Bearer ' + token });
       if (options != null) {
         options.headers = headers;
       } else {

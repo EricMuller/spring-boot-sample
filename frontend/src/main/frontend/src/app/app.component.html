@@ -2,7 +2,7 @@
   <div class="row">
 
     <md-menu #appMenuApp="mdMenu">
-       <button  md-menu-item [routerLinkActive]="['active']" routerLink="/home">
+      <button md-menu-item [routerLinkActive]="['active']" routerLink="/home">
         <md-icon>home</md-icon>
         home
       </button>
@@ -14,15 +14,15 @@
         <md-icon>content_copy</md-icon>
         Load dummy questions
       </button>
-      <a *ngIf="user" md-menu-item href="/logout">
+      <a *ngIf="user" md-menu-item (click)="logout($event)">
         <md-icon>content_copy</md-icon>
         logout
       </a>
-      <a *ngIf="!user"md-menu-item href="/login/github">
+      <a *ngIf="!user" md-menu-item href="/login/github">
         <md-icon>content_copy</md-icon>
         login with github
       </a>
-      <a *ngIf="!user"md-menu-item href="/login/webmarks">
+      <a *ngIf="!user" md-menu-item href="/login/webmarks">
         <md-icon>content_copy</md-icon>
         login with oauth2.webmarks.net authorization server
       </a>

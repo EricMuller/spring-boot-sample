@@ -113,7 +113,6 @@ public class QuestionRestControllerTest implements RestTemplateHolder {
         assertThat(first).isNotNull();
         assertThat(first.getResponse()).isNotNull().isEqualTo(RESPONSE2);
 
-
     }
 
 }

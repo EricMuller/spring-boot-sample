@@ -15,6 +15,9 @@ public class Response {
     @Column(name = "response", nullable = false, length = 32672)
     private String response;
 
+    @Version
+    private Long  version;
+
     @Column(name = "CREATED_DATE")
     private Date date;
 
@@ -77,5 +80,13 @@ public class Response {
     @Override
     public String toString() {
         return String.format("Question[id=%d, question='%s', response='%s']", id, response);
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }
