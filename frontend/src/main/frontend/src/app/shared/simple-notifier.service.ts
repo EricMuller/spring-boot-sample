@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {MdSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material';
 
 @Injectable()
 export class NotifierService {
 
-  constructor(private mdSnackBar: MdSnackBar) {
+  constructor(private mdSnackBar: MatSnackBar) {
 
   }
 

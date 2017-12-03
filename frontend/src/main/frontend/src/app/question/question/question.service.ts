@@ -4,27 +4,22 @@ import {Response} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 
 import * as _ from 'underscore';
-import {CustomHttp} from '../../shared/custom.http';
+import {HttpClient} from '@angular/common/http';
+
 
 @Injectable()
 export class QuestionService {
   private questions: Question[];
   private categories: string[];
 
-  constructor(private http: CustomHttp) {
+  constructor(private http: HttpClient) {
   }
 
   public search() {
     return this.http.get('/api/questions')
-      .map(this.extractBody)
       .catch(this.handleError).share();
   }
 
-  public extractBody(response: Response) {
-    const body = response.json();
-    console.log('Extract body =' + body);
-    return body || {};
-  }
 
   public handleError(error: Response | any): Observable<any> {
     // In a real world app, we might use a remote logging infrastructure
