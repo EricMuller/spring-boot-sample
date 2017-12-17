@@ -1,11 +1,13 @@
 package com.emu.apps.qcm.services.dtos;
 
-import java.util.Date;
+import io.swagger.annotations.*;
+
+import java.util.*;
 
 /**
  * Created by eric on 05/06/2017.
  */
-
+@ApiModel(value = "FileQuestion")
 public class FileQuestionDto {
 
     private Long id;

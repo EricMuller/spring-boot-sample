@@ -1,10 +1,12 @@
 package com.emu.apps.qcm.services.dtos;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.*;
+import io.swagger.annotations.*;
 
-import java.util.List;
+import java.util.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ApiModel(value = "Questionnaire")
 public class QuestionnaireDto {
 
     private Long id;

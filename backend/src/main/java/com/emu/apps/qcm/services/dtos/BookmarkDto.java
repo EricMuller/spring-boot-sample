@@ -1,8 +1,9 @@
-package com.emu.apps.qcm.model;
+package com.emu.apps.qcm.services.dtos;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.*;
 
-public class Bookmark {
+@ApiModel(value = "Bookmark")
+public class BookmarkDto {
 	@ApiModelProperty(notes = "The database generated product ID")
     public long id;
 	@ApiModelProperty(notes = "The title  of the Bookmark")
@@ -12,7 +13,7 @@ public class Bookmark {
 	@ApiModelProperty(notes = "The description  of the Bookmark")
     public String description;
 
-    public Bookmark(long id, String title, String url, String description) {
+    public BookmarkDto(long id, String title, String url, String description) {
         this.id = id;
         this.title = title;
         this.url = url;

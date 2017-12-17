@@ -11,7 +11,7 @@ import java.util.*;
 @RequestMapping("/api/v1/users/me")
 public class UserRestController {
     
-    @ApiOperation(value = "get Current user", response = Map.class)
+    @ApiOperation(value = "get Current user", response = Map.class, nickname = "getCurrentUser")
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public Map<String, String> user(Principal principal) {
         Map<String, String> map = new LinkedHashMap<>();

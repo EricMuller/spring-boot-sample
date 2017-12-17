@@ -24,7 +24,7 @@ public class QuestionnaireRestController {
     @Autowired
     private QuestionnaireService questionnairesService;
 
-    @ApiOperation(value = "upload a questionnaire json file", responseContainer = "ResponseEntity", response = MessageDto.class, tags = "Questionnaires")
+    @ApiOperation(value = "upload a questionnaire json file", responseContainer = "ResponseEntity", response = MessageDto.class, tags = "Questionnaires", nickname = "uploadFile")
     @RequestMapping(value = "/upload", method = RequestMethod.POST, headers = "Content-Type= multipart/form-data", produces = "application/json")
     @ResponseBody
     @Secured("ROLE_USER")
@@ -41,7 +41,7 @@ public class QuestionnaireRestController {
         return new ResponseEntity<>(new MessageDto("Ok"), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Find all questionnaires", responseContainer = "List", response = QuestionDto.class, tags = "Questionnaires")
+    @ApiOperation(value = "Find all questionnaires", responseContainer = "List", response = QuestionDto.class, tags = "Questionnaires", nickname = "getQuestionnaires")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved list"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),

@@ -21,14 +21,14 @@ public class CategoryRestController {
     @Autowired
     private CategoryService categoryService;
 
-    @ApiOperation(value = "Find a category by ID", response = CategoryDto.class, tags = "Categories")
+    @ApiOperation(value = "Find a category by ID", response = CategoryDto.class, tags = "Categories" ,nickname = "getCategoryById")
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     @ResponseBody
     public CategoryDto getCategory(@PathVariable("id") Long id) {
         return categoryService.findById(id);
     }
 
-    @ApiOperation(value = "Find all categories",responseContainer = "List", response = CategoryDto.class)
+    @ApiOperation(value = "Find all categories",responseContainer = "List", response = CategoryDto.class, nickname = "getCategories")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved list"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),

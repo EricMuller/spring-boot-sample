@@ -26,16 +26,15 @@ public class QuestionRestController {
     @Autowired
     private QuestionService questionService;
 
-    @ApiOperation(value = "Find a question by ID", response = Question.class)
+    @ApiOperation(value = "Find a question by ID", response = Question.class, nickname = "getQuestionById")
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     @ResponseBody
-    public QuestionDto getQuestion(@PathVariable("id") long id) {
+    public QuestionDto getQuestionById(@PathVariable("id") long id) {
         return questionService.findOne(id);
     }
 
 
-
-    @ApiOperation(value = "Find all questions", responseContainer = "List", response = QuestionDto.class)
+    @ApiOperation(value = "Find all questions", responseContainer = "List", response = QuestionDto.class, nickname = "getQuestionByQuestionnaireIDAndCategorieId")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved list"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -59,15 +58,14 @@ public class QuestionRestController {
     }
 
 
-
-    @ApiOperation(value = "Update a question", response = Question.class)
+    @ApiOperation(value = "Update a question", response = Question.class, nickname = "updateQuestion")
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseBody
     public QuestionDto updateQuestion(@RequestBody QuestionDto questionDto) {
         return questionService.updateQuestion(questionDto);
     }
 
-    @ApiOperation(value = "Save a question", response = Question.class)
+    @ApiOperation(value = "Save a question", response = Question.class, nickname = "saveQuestion")
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public QuestionDto saveQuestion(@RequestBody QuestionDto questionDto) {
