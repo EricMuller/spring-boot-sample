@@ -1,6 +1,6 @@
 package com.emu.apps.qcm.services.repositories;
 
-import com.emu.apps.qcm.model.Question;
+import com.emu.apps.qcm.model.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +35,7 @@ public class QuestionRepositoryTest {
         //given
         Question question = new Question();
         question.setQuestion(QUESTION);
+        question.setType(Type.TEXTE_LIBRE);
 
         //when
         questionRepository.save(question);

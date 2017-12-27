@@ -1,24 +1,18 @@
 package com.emu.apps.qcm.services;
 
-import com.emu.apps.qcm.model.Category;
-import com.emu.apps.qcm.model.Question;
-import com.emu.apps.qcm.model.Questionnaire;
-import com.emu.apps.qcm.model.Response;
-import com.emu.apps.qcm.services.dtos.FileQuestionDto;
-import com.emu.apps.qcm.services.dtos.QuestionnaireDto;
-import com.emu.apps.qcm.services.mappers.FileQuestionMapper;
-import com.emu.apps.qcm.services.mappers.QuestionnaireMapper;
-import com.emu.apps.qcm.services.repositories.CategoryCrudRepository;
-import com.emu.apps.qcm.services.repositories.QuestionnaireCrudRepository;
-import com.google.common.collect.Lists;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.emu.apps.qcm.model.*;
+import com.emu.apps.qcm.services.dtos.*;
+import com.emu.apps.qcm.services.mappers.*;
+import com.emu.apps.qcm.services.repositories.*;
+import com.google.common.collect.*;
+import org.apache.commons.io.*;
+import org.apache.commons.lang3.*;
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional()
@@ -45,35 +39,49 @@ public class QuestionnaireService {
     public Iterable<QuestionnaireDto> findAll() {
         return questionnaireMapper.modelToDtos(questionnaireCrudRepository.findAll());
     }
-    
-    public void saveQuestionnaire(String name, FileQuestionDto[] questions) {
 
-        Questionnaire questionnaire = new Questionnaire(name);
+    public void saveQuestionnaire(String fullName, FileQuestionDto[] questions) {
 
-        List<Question> questionList = Lists.newArrayList();
+        String name = FilenameUtils.getBaseName(fullName);
+
+        Map<String, Questionnaire> questionnaireMap = Maps.newHashMap();
+
         for (FileQuestionDto fileQuestionDto : questions) {
-            Question question = fileQuestionMapper.dtoToModel(fileQuestionDto);
-            question.setDate(new Date());
             if (StringUtils.isNotEmpty(fileQuestionDto.getCategorie())) {
+                Question question = fileQuestionMapper.dtoToModel(fileQuestionDto);
+                question.setDate(new Date());
+
                 Category category = categorieRepository.findByLibelle(fileQuestionDto.getCategorie());
                 if (category == null) {
                     category = new Category();
                     category.setLibelle(fileQuestionDto.getCategorie());
                     categorieRepository.save(category);
                 }
-                question.setCategory(category);
+
+                question.setType(Type.TEXTE_LIBRE);
+
+
+                Response response = new Response();
+                response.setTrue(Boolean.TRUE);
+                response.setResponse(fileQuestionDto.getResponse());
+
+                question.setResponses(Lists.newArrayList(response));
+
+                Questionnaire questionnaire = questionnaireMap.get(fileQuestionDto.getCategorie());
+                if (questionnaire == null) {
+                    questionnaire = new Questionnaire(name + "-" + fileQuestionDto.getCategorie());
+                    questionnaire.setQuestions(Lists.newArrayList());
+                    questionnaire.setCategory(category);
+                    questionnaireMap.put(fileQuestionDto.getCategorie(), questionnaire);
+                }
+                question.setQuestionnaire(questionnaire);
+                questionnaire.getQuestions().add(question);
+
             }
-
-            Response response = new Response();
-            response.setTrue(Boolean.TRUE);
-            response.setResponse(fileQuestionDto.getResponse());
-
-            question.setResponses(Lists.newArrayList(response));
-            questionList.add(question);
-            question.setQuestionnaire(questionnaire);
         }
-        questionnaire.setQuestions(questionList);
-        questionnaireCrudRepository.save(questionnaire);
+
+        questionnaireMap.forEach((k, v) -> questionnaireCrudRepository.save(v));
+
     }
 
 

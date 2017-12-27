@@ -1,14 +1,18 @@
 import {HomeComponent} from '../home/home.component';
-import {QuestionComponent} from '../question/question/question.component';
+import {QuestionListComponent} from '../question/question-list/question-list.component';
 import {UploadComponent} from '../upload/upload.component';
-import {UserGuardService} from 'app/auth/user-guard.service'
+import {UserGuardService} from 'app/shared/user-guard.service'
+import {QuestionnaireListComponent} from '../questionnaire/questionnaire-list/questionnaire-list.component';
 
 export const ROUTES_CONFIG = [
   {
     path: '', component: HomeComponent, pathMatch: 'full'
   },
   {
-    path: 'questions', component: QuestionComponent, canActivate: [UserGuardService],
+    path: 'questionnaire', component: QuestionnaireListComponent, canActivate: [UserGuardService],
+  },
+  {
+    path: 'questions', component: QuestionListComponent, canActivate: [UserGuardService],
     children: [
       {path: 'upload', component: UploadComponent, canActivate: [UserGuardService]},
     ]

@@ -13,18 +13,19 @@ import {
   MatSelectModule,
   MatSnackBarModule,
   MatToolbarModule,
-  MatListModule
+  MatListModule,
+  MatTableModule
 } from '@angular/material';
 
 import {RouterModule} from '@angular/router';
-import {QuestionComponent} from './question/question/question.component';
+import {QuestionListComponent} from './question/question-list/question-list.component';
 // application
 import {AppComponent} from './app.component';
-import {QuestionService} from './question/question/question.service';
+import {QuestionService} from './api/api/question.service';
 import {HomeComponent} from './home/home.component';
 import {UploadComponent} from './upload/upload.component';
-import {UserService} from 'app/auth/user.service'
-import {UserGuardService} from 'app/auth/user-guard.service'
+import {UserService} from 'app/api/api/user.service'
+import {UserGuardService} from 'app/shared/user-guard.service'
 /* shared*/
 import {NotifierService} from './shared/simple-notifier.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http'
@@ -33,13 +34,17 @@ import {ROUTES_CONFIG} from './config/app.routes.config';
 // import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {CookieService} from 'ngx-cookie-service';
 import {JWTInterceptor} from './shared/JWTInterceptor.http';
+import { QuestionnaireListComponent } from './questionnaire/questionnaire-list/questionnaire-list.component';
+import { QuestionnaireDetailComponent } from './questionnaire/questionnaire-detail/questionnaire-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    QuestionComponent,
+    QuestionListComponent,
     HomeComponent,
     UploadComponent,
+    QuestionnaireListComponent,
+    QuestionnaireDetailComponent,
 
   ],
   imports: [
@@ -57,6 +62,7 @@ import {JWTInterceptor} from './shared/JWTInterceptor.http';
     MatMenuModule,
     MatSnackBarModule,
     MatListModule,
+    MatTableModule,
     RouterModule,
     RouterModule.forRoot(ROUTES_CONFIG)
   ],

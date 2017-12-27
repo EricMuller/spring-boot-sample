@@ -15,9 +15,11 @@
         <artifactId>spring-boot-sample</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+
     <properties>
         <codegen.source.url>frontend\src\main\frontend\swagger-v1.json</codegen.source.url>
-        <codegen.target.dir>src/main/frontend/src/app/api</codegen.target.dir>
+        <codegen.target.dir>src/main/frontend/src/app/api/swagger</codegen.target.dir>
+        <sonar.skip>true</sonar.skip>
     </properties>
 
     <build>
@@ -27,6 +29,7 @@
                 <targetPath>static</targetPath>
             </resource>
         </resources>
+
         <plugins>
             <plugin>
                 <groupId>com.github.eirslett</groupId>
@@ -35,7 +38,7 @@
 
                 <configuration>
                     <nodeVersion>v6.11.2</nodeVersion>
-                    <npmVersion>5.3.0</npmVersion>
+                    <npmVersion>5.6.0</npmVersion>
                     <workingDirectory>src/main/frontend</workingDirectory>
                 </configuration>
 
@@ -66,28 +69,28 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-codegen-maven-plugin</artifactId>
-                <version>2.3.0-SNAPSHOT</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${codegen.source.url}</inputSpec>
-                            <language>typescript-angular</language>
-                            <!-- This would be the directory to generate the files onto -->
-                            <output>${codegen.target.dir}</output>
-                            <configOptions>
-                                <useHttpClient>true</useHttpClient>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--  <plugin>
+                 <groupId>io.swagger</groupId>
+                 <artifactId>swagger-codegen-maven-plugin</artifactId>
+                 <version>2.3.0-SNAPSHOT</version>
+                 <executions>
+                     <execution>
+                         <goals>
+                             <goal>generate</goal>
+                         </goals>
+                         <configuration>
+                             <inputSpec>${codegen.source.url}</inputSpec>
+                             <language>typescript-angular</language>
+                             <output>${codegen.target.dir}</output>
+                             <configOptions>
+                                 <useHttpClient>true</useHttpClient>
+                             </configOptions>
+                         </configuration>
+                     </execution>
+                 </executions>
+             </plugin> -->
         </plugins>
     </build>
+
 
 </project>

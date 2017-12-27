@@ -45,14 +45,11 @@ public class QuestionRestController {
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     @PreAuthorize("true")
-    public Iterable<QuestionDto> getQuestions(@RequestParam(value = "questionnaireId", required = false) Long questionnaireId,
-                                              @RequestParam(value = "categorieId", required = false) Long categorieId) {
+    public Iterable<QuestionDto> getQuestions(@RequestParam(value = "questionnaireId", required = false) Long questionnaireId) {
         if (questionnaireId != null) {
-            if (categorieId != null) {
-                return questionService.findByQuestionnaireIdAndCategoryId(questionnaireId, categorieId);
-            } else {
-                return questionService.findByQuestionnaireId(questionnaireId);
-            }
+
+            return questionService.findByQuestionnaireId(questionnaireId);
+
         }
         return questionService.findAll();
     }

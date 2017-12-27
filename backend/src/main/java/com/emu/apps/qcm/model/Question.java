@@ -12,6 +12,7 @@ import java.util.*;
 /**
  * Created by eric on 05/06/2017.
  */
+
 @Entity
 public class Question {
     /*@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUST_SEQ")
@@ -23,7 +24,7 @@ public class Question {
     private Long id;
 
     @Version
-    private Long  version;
+    private Long version;
 
     private Long number;
 
@@ -36,13 +37,12 @@ public class Question {
     @Column(name = "CREATED_DATE")
     private Date date;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @Fetch(FetchMode.JOIN)
-    private Category category;
-
     @OneToMany(cascade = CascadeType.ALL)
     @Fetch(FetchMode.SUBSELECT)
     private List<Response> responses;
+
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     public Question() {
     }
@@ -50,14 +50,6 @@ public class Question {
     public Question(String question, Date date) {
         this.question = question;
         this.date = date;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     public Long getId() {
@@ -120,5 +112,13 @@ public class Question {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }

@@ -1,9 +1,7 @@
 package com.emu.apps.qcm.services.repositories;
 
+import com.emu.apps.qcm.model.*;
 import com.emu.apps.qcm.model.Category;
-import com.emu.apps.qcm.model.Question;
-import com.emu.apps.qcm.model.Questionnaire;
-import com.emu.apps.qcm.model.Response;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import org.junit.Assert;
@@ -62,7 +60,7 @@ public class QuestionnaireRepositoryTest {
         //given
         Question question = new Question();
         question.setQuestion(QUESTION);
-        question.setCategory(category);
+        question.setType(Type.TEXTE_LIBRE);
 
         question.setResponses(Lists.newArrayList(response, response2));
 

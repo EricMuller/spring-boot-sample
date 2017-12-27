@@ -33,6 +33,7 @@ public class QuestionnaireRestController {
             logger.info(file.getOriginalFilename());
             ObjectMapper objectMapper = new ObjectMapper();
             final FileQuestionDto[] questions = objectMapper.readValue(file.getInputStream(), FileQuestionDto[].class);
+
             questionnairesService.saveQuestionnaire(file.getOriginalFilename(), questions);
         } catch (Exception e) {
             logger.error("err", e);

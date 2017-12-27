@@ -1,18 +1,25 @@
 import {Component, OnInit} from '@angular/core';
-import {Question} from 'app/question/question/question.model'
-import {QuestionService} from './question.service';
+import {Question} from 'app/api/model/question.model'
+import {QuestionService} from '../../api/api/question.service';
 import {NotifierService} from '../../shared/simple-notifier.service';
+import {Observable} from 'rxjs/Observable';
+import {MatTableDataSource} from '@angular/material';
 
 @Component({
   selector: 'app-question',
-  templateUrl: './question.component.html',
-  styleUrls: ['./question.component.css']
+  templateUrl: './question-list.component.html',
+  styleUrls: ['./question-list.component.css']
 })
-export class QuestionComponent implements OnInit {
+export class QuestionListComponent implements OnInit {
   public title = ' Questions JAVA !';
   public number: number = 0;
   public question: Question;
   public questions: Question[] = [];
+
+  private results: Observable<Question[]>;
+
+  public displayedColumns = ['number', 'categorie', 'question'];
+  public dataSource = new MatTableDataSource<Question>();
 
   ngOnInit() {
   }
@@ -31,7 +38,9 @@ export class QuestionComponent implements OnInit {
   }
 
   public search() {
-    this.questionService.search().subscribe(
+    this.results = this.questionService.search();
+
+    /*this.questionService.search().subscribe(
       result => {
         this.questions.slice(0);
         for (const q of result) {
@@ -42,7 +51,7 @@ export class QuestionComponent implements OnInit {
       err => {
         console.error(err);
         this.notifierService.notifyError('Unknown error');
-      });
+      });*/
   }
 
 

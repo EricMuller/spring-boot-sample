@@ -1,9 +1,11 @@
 package com.emu.apps.qcm.model;
 
-import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.*;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.*;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class Questionnaire {
@@ -17,9 +19,13 @@ public class Questionnaire {
 
     private String name;
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @BatchSize(size = 20)
     private List<Question> questions;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.JOIN)
+    private Category category;
 
     public Questionnaire(String name) {
         this.name = name;
@@ -40,7 +46,6 @@ public class Questionnaire {
         this.questions = questions;
     }
 
-
     public String getName() {
         return name;
     }
@@ -55,5 +60,13 @@ public class Questionnaire {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

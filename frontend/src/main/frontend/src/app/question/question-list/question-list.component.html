@@ -36,8 +36,37 @@
       </span>
 </mat-toolbar>
 
+<div class="example-container mat-elevation-z8">
+
+  <mat-table #table [dataSource]="dataSource">
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="number">
+      <mat-header-cell *matHeaderCellDef> No.</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.number}}</mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="categorie">
+      <mat-header-cell *matHeaderCellDef> Categorie</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.categorie}}</mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="question">
+      <mat-header-cell *matHeaderCellDef> Question</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.categorie}}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>
+
 <mat-nav-list>
-  <mat-list-item *ngFor="let question of questions">
+  <mat-list-item *ngFor="let question of results  | async">
     <div style="margin-right: 0px">
       <div>
         <a mat-icon-button style="max-width: 600px;overflow: hidden" matTooltip="Edit Bookmark">
@@ -46,7 +75,7 @@
       </div>
 
     </div>
-    <span class="fill-remaining-space"></span>
+    <!-- <span class="fill-remaining-space"></span>-->
     <span>{{question.question}}</span>
   </mat-list-item>
 
