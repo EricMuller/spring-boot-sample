@@ -171,6 +171,10 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <addResources>true</addResources>
+                    <executable>true</executable>
+                    <embeddedLaunchScriptProperties>
+                        <useStartStopDaemon>false</useStartStopDaemon>
+                    </embeddedLaunchScriptProperties>
                 </configuration>
             </plugin>
 
