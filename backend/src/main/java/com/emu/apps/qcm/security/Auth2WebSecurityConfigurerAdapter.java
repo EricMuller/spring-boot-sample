@@ -75,7 +75,7 @@ public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
     }
 
     @Override
-    public void configure(WebSecurity web)  {
+    public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/static/**", "/v2/api-docs", "/swagger-resources/configuration/ui", "/configuration/ui"
                 , "/swagger-resources**", "/swagger-resources/configuration/security", "/swagger-ui.html", "/webjars/**"
         );
@@ -88,7 +88,7 @@ public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
 
         http.antMatcher("/**")
                 .authorizeRequests()
-                .antMatchers("/", "/webjars/**", "/**.js", "/*.ico", "/*.map", "/assets/**").permitAll()
+                .antMatchers("/", "/webjars/**", "/**.css", "/**.js", "/*.ico", "/*.map", "/assets/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()

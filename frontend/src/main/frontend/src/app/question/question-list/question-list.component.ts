@@ -16,7 +16,7 @@ export class QuestionListComponent implements OnInit {
   public question: Question;
   public questions: Question[] = [];
 
-  private results: Observable<Question[]>;
+  public results: Observable<Question[]>;
 
   public displayedColumns = ['number', 'categorie', 'question'];
   public dataSource = new MatTableDataSource<Question>();

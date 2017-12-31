@@ -18,12 +18,20 @@
         <developerConnection>scm:git:git@github.com:EricMuller/spring-boot-sample.git</developerConnection>
     </scm>
 
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
     <developers>
         <developer>
             <email>e.mul@free.fr</email>
             <name>Eric Muller</name>
             <url>https://github.com/EricMuller</url>
             <id>EricMuller</id>
+            <organizationUrl>http://webmarks.net</organizationUrl>
         </developer>
     </developers>
 
@@ -45,14 +53,11 @@
         <spring.dev.tools.version>1.5.1.RELEASE</spring.dev.tools.version>
         <springfox-swagger2.version>2.7.0</springfox-swagger2.version>
 
-
         <io.jsonwebtoken.jjwt>0.7.0</io.jsonwebtoken.jjwt>
 
         <myProfile>default</myProfile>
 
-
     </properties>
-
 
     <dependencyManagement>
 
@@ -281,10 +286,23 @@
                     </executions>
                 </plugin>
 
+                <plugin>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.0.2</version>
+                    <executions>
+                        <execution>
+                            <id>tree</id>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>tree</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
             </plugins>
         </pluginManagement>
     </build>
-
 
     <pluginRepositories>
         <pluginRepository>
@@ -297,7 +315,6 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-
 
     <profiles>
         <profile>
@@ -327,7 +344,6 @@
                     http://brix:9000
                 </sonar.host.url>
             </properties>
-
 
             <build>
                 <pluginManagement>
@@ -394,6 +410,5 @@
         <module>backend</module>
         <module>frontend</module>
     </modules>
-
 
 </project>

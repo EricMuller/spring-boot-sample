@@ -145,9 +145,7 @@
             <artifactId>commons-io</artifactId>
         </dependency>
 
-
     </dependencies>
-
 
     <build>
         <plugins>
@@ -185,18 +183,15 @@
                 </dependencies>
             </plugin>
 
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
 
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
-
 
         </plugins>
     </build>
