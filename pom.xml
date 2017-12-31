@@ -62,7 +62,6 @@
                 <groupId>com.emu.apps.sample</groupId>
                 <artifactId>spring-boot-sample-frontend</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
-                <scope>runtime</scope>
             </dependency>
 
             <!-- spring -->
@@ -299,10 +298,6 @@
         </pluginRepository>
     </pluginRepositories>
 
-    <modules>
-        <module>backend</module>
-        <module>frontend</module>
-    </modules>
 
     <profiles>
         <profile>
@@ -395,7 +390,10 @@
         </profile>
     </profiles>
 
-
+    <modules>
+        <module>backend</module>
+        <module>frontend</module>
+    </modules>
 
 
 </project>

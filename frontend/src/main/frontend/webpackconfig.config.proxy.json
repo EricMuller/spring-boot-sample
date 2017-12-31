@@ -1,0 +1,17 @@
+
+{
+  "_comment": " use this proxy config  if eject angular-cli conf with  ng eject ",
+  "devServer": {
+    "historyApiFallback": true,
+    proxy: {
+      "/api": {
+        "target": "http://localhost:8080/",
+        "secure": false
+      },
+      "/login": {
+        "target": "http://localhost:8080/",
+        "secure": false
+      }
+    }
+  }
+}

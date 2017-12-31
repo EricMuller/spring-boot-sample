@@ -21,14 +21,7 @@
         <start-class>com.emu.apps.qcm.Application</start-class>
     </properties>
 
-
     <dependencies>
-
-        <dependency>
-            <groupId>com.emu.apps.sample</groupId>
-            <artifactId>spring-boot-sample-frontend</artifactId>
-            <scope>runtime</scope>
-        </dependency>
 
         <!-- spring -->
         <dependency>
@@ -208,4 +201,25 @@
         </plugins>
     </build>
 
+    <profiles>
+
+        <profile>
+            <id>include-frontend</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>include-frontend</name>
+                </property>
+            </activation>
+
+            <dependencies>
+
+                <dependency>
+                    <groupId>com.emu.apps.sample</groupId>
+                    <artifactId>spring-boot-sample-frontend</artifactId>
+                </dependency>
+
+            </dependencies>
+        </profile>
+    </profiles>
 </project>
