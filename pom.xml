@@ -322,24 +322,23 @@
      |          Specifies a further group identifier to use for plugin lookup.
                 <pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
             -->
-            <id>sonar</id>
+            <id>run-sonar</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
                 <property>
-                    <name>runSonar</name>
-                    <value>true</value>
+                    <name>run-sonar</name>
                 </property>
             </activation>
 
             <properties>
 
-                <jacoco.reportPath>${project.basedir}/target/jacoco.exec</jacoco.reportPath>
+                <jacoco.reportPath>${project.basedir}/../target/jacoco.exec</jacoco.reportPath>
                 <!--<jacoco.reportPath>${maven.multiModuleProjectDirectory}/target/jacoco_analysis/jacoco.exec</jacoco.reportPath>-->
 
                 <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
-                <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+                <sonar.jacoco.reportPaths>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPaths>
                 <sonar.language>java</sonar.language>
-                <myProfile>sonar</myProfile>
+                <myProfile>run-sonar</myProfile>
                 <sonar.host.url>
                     http://brix:9000
                 </sonar.host.url>
