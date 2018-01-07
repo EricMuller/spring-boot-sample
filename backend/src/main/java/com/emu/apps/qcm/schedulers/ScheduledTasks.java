@@ -17,7 +17,7 @@ public class ScheduledTasks {
 
     private AtomicInteger counter = new AtomicInteger(0);
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    private  final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     @Scheduled(fixedRate = 30000)
     public void reportCurrentTime() {

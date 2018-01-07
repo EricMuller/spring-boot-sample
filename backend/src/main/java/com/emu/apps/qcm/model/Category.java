@@ -21,7 +21,6 @@ public class Category {
     }
 
     public Category(String libelle) {
-        this.id = id;
         this.libelle = libelle;
     }
 

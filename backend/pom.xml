@@ -7,7 +7,7 @@
     <artifactId>spring-boot-sample-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>Backend Project backEnd</name>
+    <name>Project backEnd</name>
     <description>Spring Boot Backend Project</description>
 
     <parent>
@@ -19,10 +19,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>com.emu.apps.qcm.Application</start-class>
+
+        <!--<jacoco.reportPath>${project.basedir}/../target/jacoco.exec</jacoco.reportPath>-->
+        <!--<sonar.jacoco.reportPaths>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPaths>-->
+        <sonar.language>java</sonar.language>
     </properties>
 
     <dependencies>
-
         <!-- spring -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -56,7 +59,6 @@
         </dependency>
 
         <!-- monitor -->
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -83,7 +85,6 @@
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>0.7.0</version>
         </dependency>
 
         <!-- pilotes -->
@@ -101,7 +102,6 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-            <version>${org.mapstruct.version}</version>
         </dependency>
 
         <!-- swagger -->
@@ -109,13 +109,11 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -124,15 +122,9 @@
         </dependency>
 
         <!-- client rest -->
-
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-client</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
         </dependency>
 
         <dependency>
@@ -149,7 +141,6 @@
 
     <build>
         <plugins>
-
             <!-- mapper -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -160,6 +151,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+
                 <configuration>
                     <addResources>true</addResources>
                     <executable>true</executable>
@@ -167,20 +159,13 @@
                         <useStartStopDaemon>false</useStartStopDaemon>
                     </embeddedLaunchScriptProperties>
                 </configuration>
+
             </plugin>
 
             <!-- test ?? -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.doxia</groupId>
-                        <artifactId>doxia-module-markdown</artifactId>
-                        <version>1.6</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
             <plugin>
@@ -197,7 +182,7 @@
     </build>
 
     <profiles>
-
+        <!-- include static frontend files (angular files) -->
         <profile>
             <id>include-frontend</id>
             <activation>
@@ -208,13 +193,13 @@
             </activation>
 
             <dependencies>
-
                 <dependency>
                     <groupId>com.emu.apps.sample</groupId>
                     <artifactId>spring-boot-sample-frontend</artifactId>
+                    <version>0.0.1-SNAPSHOT</version>
                 </dependency>
-
             </dependencies>
+
         </profile>
     </profiles>
 </project>

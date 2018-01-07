@@ -7,7 +7,7 @@
     <artifactId>spring-boot-sample-frontend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>frontend</name>
+    <name>Frontend project</name>
     <description>Frontend Project</description>
 
     <parent>
@@ -20,6 +20,9 @@
         <codegen.source.url>frontend\src\main\frontend\swagger-v1.json</codegen.source.url>
         <codegen.target.dir>src/main/frontend/src/app/api/swagger</codegen.target.dir>
         <sonar.skip>true</sonar.skip>
+        <!--<jacoco.reportPath>${project.basedir}/../target/jacoco.exec</jacoco.reportPath>-->
+        <!--<sonar.jacoco.reportPaths>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPaths>-->
+        <sonar.language>java</sonar.language>
     </properties>
 
     <build>
@@ -40,6 +43,7 @@
                     <nodeVersion>v6.11.2</nodeVersion>
                     <npmVersion>5.6.0</npmVersion>
                     <workingDirectory>src/main/frontend</workingDirectory>
+                    <!--<installDirectory>target</installDirectory>-->
                 </configuration>
 
                 <executions>

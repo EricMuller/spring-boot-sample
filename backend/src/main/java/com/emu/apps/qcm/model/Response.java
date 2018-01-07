@@ -79,7 +79,7 @@ public class Response {
 
     @Override
     public String toString() {
-        return String.format("Question[id=%d, question='%s', response='%s']", id, response);
+        return String.format("Response[id=%d,  response='%s']", id, response);
     }
 
     public Long getVersion() {
