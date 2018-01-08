@@ -30,14 +30,14 @@ webmarks:
   client:
     clientId: client_id
     clientSecret: client_secret
-    accessTokenUri: http://oauth2.webmarks.net/login/oauth2/token/
-    userAuthorizationUri: http://oauth2.webmarks.net/login/oauth2/authorize
+    accessTokenUri: https://oauth2.webmarks.net/login/oauth2/token/
+    userAuthorizationUri: https://oauth2.webmarks.net/login/oauth2/authorize
     clientAuthenticationScheme: form
     scope:
           - profile
           - bookmarks
   resource:
-    userInfoUri: http://oauth2.webmarks.net/api/v1/accounts/me/
+    userInfoUri: https://oauth2.webmarks.net/api/v1/accounts/me/
 
 logging:
       # file: logs/application-debug.logger
