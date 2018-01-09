@@ -9,9 +9,13 @@ import org.mapstruct.*;
 public interface QuestionnaireMapper {
 
     @Mapping(target = "questions", ignore = true)
-    QuestionnaireDto modelToDto(Questionnaire fiche);
+    QuestionnaireDto modelToDto(Questionnaire questionnaire);
+
+    @Mapping(target = "questions", ignore = true)
+    Questionnaire dtoToModel(QuestionnaireDto questionnaireDto);
 
     Iterable<QuestionnaireDto> modelToDtos(Iterable<Questionnaire> questionnaires);
+
 
     /*
     Iterable<QuestionnaireDto> modelToDtosWithOutStringResponse(Iterable<Questionnaire> questionnaires);

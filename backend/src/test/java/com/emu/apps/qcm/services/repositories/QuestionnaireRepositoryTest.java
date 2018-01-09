@@ -69,7 +69,7 @@ public class QuestionnaireRepositoryTest {
 
 
         Questionnaire questionnaire = new Questionnaire();
-        questionnaire.setName("test");
+        questionnaire.setTitle("test");
 
         questionnaire.setQuestions(Lists.newArrayList(question));
 

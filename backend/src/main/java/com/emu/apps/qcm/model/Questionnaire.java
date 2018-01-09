@@ -1,11 +1,11 @@
 package com.emu.apps.qcm.model;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 import javax.persistence.*;
-import java.util.*;
+import java.util.List;
 
 @Entity
 public class Questionnaire {
@@ -17,7 +17,9 @@ public class Questionnaire {
     @Version
     private Long version;
 
-    private String name;
+    private String title;
+
+    private String description;
 
     @OneToMany(cascade = CascadeType.ALL)
     @BatchSize(size = 20)
@@ -27,8 +29,8 @@ public class Questionnaire {
     @Fetch(FetchMode.JOIN)
     private Category category;
 
-    public Questionnaire(String name) {
-        this.name = name;
+    public Questionnaire(String title) {
+        this.title = title;
     }
 
     public Questionnaire() {
@@ -46,12 +48,12 @@ public class Questionnaire {
         this.questions = questions;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Long getId() {
@@ -68,5 +70,13 @@ public class Questionnaire {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

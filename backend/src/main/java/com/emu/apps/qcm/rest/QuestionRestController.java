@@ -26,12 +26,6 @@ public class QuestionRestController {
     @Autowired
     private QuestionService questionService;
 
-    @ApiOperation(value = "Find a question by ID", response = Question.class, nickname = "getQuestionById")
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public QuestionDto getQuestionById(@PathVariable("id") long id) {
-        return questionService.findOne(id);
-    }
 
 
     @ApiOperation(value = "Find all questions", responseContainer = "List", response = QuestionDto.class, nickname = "getQuestionByQuestionnaireIDAndCategorieId")
@@ -55,11 +49,19 @@ public class QuestionRestController {
     }
 
 
+    @ApiOperation(value = "Find a question by ID", response = Question.class, nickname = "getQuestionById")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public QuestionDto getQuestionById(@PathVariable("id") long id) {
+        return questionService.findOne(id);
+    }
+
+
     @ApiOperation(value = "Update a question", response = Question.class, nickname = "updateQuestion")
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseBody
     public QuestionDto updateQuestion(@RequestBody QuestionDto questionDto) {
-        return questionService.updateQuestion(questionDto);
+        return questionService.saveQuestion(questionDto);
     }
 
     @ApiOperation(value = "Save a question", response = Question.class, nickname = "saveQuestion")

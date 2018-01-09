@@ -40,6 +40,12 @@ public class QuestionnaireService {
         return questionnaireMapper.modelToDtos(questionnaireCrudRepository.findAll());
     }
 
+    public QuestionnaireDto saveQuestionnaire(QuestionnaireDto questionnaireDto) {
+        Questionnaire questionnaire = questionnaireMapper.dtoToModel(questionnaireDto);
+        return questionnaireMapper.modelToDto(questionnaireCrudRepository.save(questionnaire));
+    }
+
+
     public void saveQuestionnaire(String fullName, FileQuestionDto[] questions) {
 
         String name = FilenameUtils.getBaseName(fullName);

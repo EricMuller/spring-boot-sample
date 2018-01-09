@@ -1,9 +1,9 @@
 package com.emu.apps.qcm.services.dtos;
 
-import com.fasterxml.jackson.annotation.*;
-import io.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
 
-import java.util.*;
+import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ApiModel(value = "Questionnaire")
@@ -11,7 +11,9 @@ public class QuestionnaireDto {
 
     private Long id;
 
-    private String name;
+    private String title;
+
+    private String description;
 
     private List<QuestionDto> questions;
 
@@ -23,12 +25,12 @@ public class QuestionnaireDto {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public List<QuestionDto> getQuestions() {
@@ -37,5 +39,13 @@ public class QuestionnaireDto {
 
     public void setQuestions(List<QuestionDto> questions) {
         this.questions = questions;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
