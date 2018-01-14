@@ -3,11 +3,6 @@
   <!-- user menu -->
   <mat-menu #appMenuApp="matMenu">
 
-    <button *ngIf="user" mat-menu-item [routerLinkActive]="['active']" routerLink="/questions">
-      <mat-icon>question_answer</mat-icon>
-      Liste de Questions
-    </button>
-
     <a *ngIf="user" mat-menu-item (click)="logout($event)">
       <mat-icon>content_copy</mat-icon>
       logout
