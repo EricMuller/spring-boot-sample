@@ -15,6 +15,8 @@ public class QuestionDto {
 
     private Long version;
 
+    private Long number;
+
     private String question;
 
     private CategoryDto category;
@@ -59,5 +61,13 @@ public class QuestionDto {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public void setNumber(Long number) {
+        this.number = number;
     }
 }

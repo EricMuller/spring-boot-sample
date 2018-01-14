@@ -5,7 +5,7 @@ import com.emu.apps.qcm.services.dtos.QuestionnaireDto;
 import org.mapstruct.*;
 
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { CategoryMapper.class })
 public interface QuestionnaireMapper {
 
     @Mapping(target = "questions", ignore = true)
@@ -15,18 +15,6 @@ public interface QuestionnaireMapper {
     Questionnaire dtoToModel(QuestionnaireDto questionnaireDto);
 
     Iterable<QuestionnaireDto> modelToDtos(Iterable<Questionnaire> questionnaires);
-
-
-    /*
-    Iterable<QuestionnaireDto> modelToDtosWithOutStringResponse(Iterable<Questionnaire> questionnaires);
-
-    @IterableMapping(qualifiedByName="questionnnaireWithOutResponse")
-    Iterable<QuestionnaireDto> modelToDtosWithOutStringResponse(Iterable<Questionnaire> questionnaires);
-
-    @Named( "questionnnaireWithOutResponse" )
-    @Mapping(target = "questions", qualifiedByName = "questionWithOutResponse")
-    QuestionnaireDto modelToDtoWithOutStringResponse(Questionnaire fiche);
-    */
 
 
 }

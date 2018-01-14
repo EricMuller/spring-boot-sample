@@ -1,44 +1,113 @@
-<div class="container">
-  <div class="row">
+<div style="height: 100%">
 
-    <mat-menu #appMenuApp="matMenu">
-      <button mat-menu-item [routerLinkActive]="['active']" routerLink="/home">
-        <mat-icon>home</mat-icon>
-        home
-      </button>
-      <button *ngIf="user" mat-menu-item [routerLinkActive]="['active']" routerLink="/questions">
-        <mat-icon>question_answer</mat-icon>
-        Liste de Questions
-      </button>
-      <button *ngIf="user" mat-menu-item [routerLinkActive]="['active']" routerLink="/upload">
-        <mat-icon>content_copy</mat-icon>
-        Load dummy questions
-      </button>
-      <a *ngIf="user" mat-menu-item (click)="logout($event)">
-        <mat-icon>content_copy</mat-icon>
-        logout
-      </a>
-      <a *ngIf="!user" mat-menu-item href="/login/github">
-        <mat-icon>content_copy</mat-icon>
-        login with github
-      </a>
-      <a *ngIf="!user" mat-menu-item href="/login/webmarks">
-        <mat-icon>content_copy</mat-icon>
-        login with oauth2.webmarks.net authorization server
-      </a>
-    </mat-menu>
+  <!-- user menu -->
+  <mat-menu #appMenuApp="matMenu">
 
-    <mat-toolbar color="primary" role="application">
+    <button *ngIf="user" mat-menu-item [routerLinkActive]="['active']" routerLink="/questions">
+      <mat-icon>question_answer</mat-icon>
+      Liste de Questions
+    </button>
+
+    <a *ngIf="user" mat-menu-item (click)="logout($event)">
+      <mat-icon>content_copy</mat-icon>
+      logout
+    </a>
+    <!--<a *ngIf="!user" mat-menu-item href="/login/github">-->
+    <!--<mat-icon>content_copy</mat-icon>-->
+    <!--login with github-->
+    <!--</a>-->
+    <a *ngIf="!user" mat-menu-item href="/login/webmarks">
+      <mat-icon>content_copy</mat-icon>
+      log with webmarks.net
+    </a>
+  </mat-menu>
+
+  <!-- top tool bar menu -->
+  <mat-toolbar class="fixed-header" color="primary" role="application">
+    <button mat-icon-button class="td-menu-button" (click)="sidenav.toggle()" mdTooltip="Main menu">
+      <mat-icon>menu</mat-icon>
+    </button>
     <span>
-      <button mat-icon-button [matMenuTriggerFor]="appMenuApp">
-      <mat-icon>apps</mat-icon>
-      </button>
+    QCM Online
     </span>
-      <span class="fill-remaining-space"></span>
-    </mat-toolbar>
+    <span class="fill-remaining-space"></span>
+    <mat-icon class="mat-icon-logo"></mat-icon>
+    <span flex></span>
+    <button *ngIf="user" mat-icon-button (click)="sidenavright.toggle()">
+      <mat-icon>search</mat-icon>
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="appMenuApp">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </mat-toolbar>
 
-    <router-outlet></router-outlet>
+  <mat-sidenav-container id="sidenav-container">
 
+    <!-- right tool bar menu-->
+    <mat-sidenav class="fixed-right" #sidenavright align="end" mode="side" opened="false"
+                 style="width:357px;border-left:1px solid #ccc">
 
-  </div>
+          <mat-toolbar>
+            <h4 mat-list-item>Categories</h4>
+            <span class="fill-remaining-space"></span>
+            <button mat-icon-button class="td-menu-button" mdTooltip="close menu" (click)="sidenavright.toggle()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </mat-toolbar>
+
+      <ng-template #loading> </ng-template>
+
+        <mat-nav-list ng-hide="!categories" *ngIf="categories | async as categories; else loading">
+          <mat-list-item *ngFor="let category of categories">
+            <mat-checkbox> {{category.libelle}}</mat-checkbox>
+          </mat-list-item>
+        </mat-nav-list>
+      <mat-sidenav-content class="fixed-content">
+        </mat-sidenav-content>
+
+    </mat-sidenav>
+
+    <!--left tool bar menu -->
+    <mat-sidenav class="fixed-left" #sidenav mode="side" opened="false" style="width:257px;border-right:1px solid #ccc">
+
+      <mat-nav-list>
+        <a mat-menu-item [routerLinkActive]="['active']" routerLink="/home">
+          <mat-icon matListIcon>home</mat-icon>
+          home
+        </a>
+        <a *ngIf="user" mat-menu-item [routerLinkActive]="['active']" routerLink="/questionnaires">
+          <mat-icon matListIcon>question_answer</mat-icon>
+          QCM
+        </a>
+        <!--<a mat-list-item><mat-icon matListIcon>history</mat-icon>Frequently contacted</a>-->
+        <!--<a mat-list-item><mat-icon matListIcon>business</mat-icon>Directory</a>-->
+        <!--<a mat-list-item><mat-icon matListIcon>content_copy</mat-icon>Duplicates</a>-->
+        <mat-divider></mat-divider>
+        <a *ngIf="user" mat-menu-item [routerLinkActive]="['active']" routerLink="/upload">
+          <mat-icon matListIcon>cloud-upload</mat-icon>
+          Upload
+        </a>
+        <mat-divider></mat-divider>
+        <a mat-menu-item>
+          <mat-icon matListIcon>add</mat-icon>
+          Create label</a>
+        <mat-divider></mat-divider>
+        <a mat-menu-item>
+          <mat-icon matListIcon>settings</mat-icon>
+          Settings</a>
+        <a mat-menu-item>
+          <mat-icon matListIcon>announcement</mat-icon>
+          Send feedback</a>
+        <a mat-menu-item>
+          <mat-icon matListIcon>help</mat-icon>
+          Help</a>
+      </mat-nav-list>
+
+    </mat-sidenav>
+
+    <mat-sidenav-content class="fixed-content">
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
 </div>

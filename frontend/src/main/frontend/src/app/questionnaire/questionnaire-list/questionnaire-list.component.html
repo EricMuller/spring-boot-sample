@@ -1,3 +1,46 @@
-<p>
-  questionnaire-list works!
-</p>
+<mat-sidenav-container id="sidenav-container" style="height:100%;">
+
+  <mat-sidenav-content>
+
+    <ng-template #loading>
+      <mat-spinner ng-disabled="!loading" style="margin: auto"></mat-spinner>
+    </ng-template>
+
+    <mat-nav-list ng-hide="!questionnaires" *ngIf="results| async as questionnaires; else loading">
+      <div>
+        <div *ngFor="let questionnaire of questionnaires">
+          <mat-list-item style="overflow: hidden" [routerLink]="['/questionnaires/', questionnaire.id]" >
+            <!--<a mat-list-item (click)="openDialog()">-->
+            <img matListAvatar src="./assets/question-simple.png"/>
+            <h4 matLine class="cursor-pointer"> Questionnaire {{questionnaire.title}} </h4>
+            <!--<span matLine>{{questionnaire.category.libelle}}</span>-->
+            <button mat-icon-button matTooltip="Star contact">
+              <mat-icon>star_outline</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Edit questionnaire">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="More actions">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <!--</a>-->
+          </mat-list-item>
+          <!--<mat-divider *ngIf="!last" mat-inset></mat-divider>-->
+          <mat-divider mat-inset></mat-divider>
+        </div>
+      </div>
+    </mat-nav-list>
+
+    <span *ngIf="!results">No QCM..</span>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+
+
+
+
+
+
+

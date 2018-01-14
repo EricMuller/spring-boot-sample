@@ -1,3 +1,3 @@
-export * from './api/api';
+export * from './services/api';
 export * from './model/models';
 

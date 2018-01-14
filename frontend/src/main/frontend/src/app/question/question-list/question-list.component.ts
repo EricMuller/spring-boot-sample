@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Question} from 'app/api/model/question.model'
-import {QuestionService} from '../../api/api/question.service';
 import {NotifierService} from '../../shared/simple-notifier.service';
 import {Observable} from 'rxjs/Observable';
 import {MatTableDataSource} from '@angular/material';
+import {QuestionService} from '../../api';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-question',
@@ -21,11 +22,20 @@ export class QuestionListComponent implements OnInit {
   public displayedColumns = ['number', 'categorie', 'question'];
   public dataSource = new MatTableDataSource<Question>();
 
-  ngOnInit() {
+  private sub: any;
+  id: number;
+
+  constructor(private questionService: QuestionService, private notifierService: NotifierService, private route: ActivatedRoute) {
   }
 
-  constructor(private questionService: QuestionService, private notifierService: NotifierService) {
+
+  ngOnInit() {
+    this.sub = this.route.params.subscribe(params => {
+      this.id = +params['id']; // (+) converts string 'id' to a number
+      this.getQuestions(this.id);
+    });
   }
+
 
   public loadQuestion() {
     const res = this.questions.filter((element) => {
@@ -37,10 +47,11 @@ export class QuestionListComponent implements OnInit {
     }
   }
 
-  public search() {
-    this.results = this.questionService.search();
+  public getQuestions(questionnaireId: Number) {
+    console.log(questionnaireId);
+    this.results = this.questionService.getQuestionsByQuestionnaireId(questionnaireId);
 
-    /*this.questionService.search().subscribe(
+    /*this.questionService.getQuestions().subscribe(
       result => {
         this.questions.slice(0);
         for (const q of result) {

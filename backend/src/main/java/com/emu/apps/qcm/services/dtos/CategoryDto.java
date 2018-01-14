@@ -1,7 +1,8 @@
 package com.emu.apps.qcm.services.dtos;
 
 
-import io.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
 
 /**
  * Created by eric on 05/06/2017.
@@ -9,11 +10,14 @@ import io.swagger.annotations.*;
 @ApiModel(value = "Category")
 public class CategoryDto {
 
+    @JsonProperty("id")
     private String id;
 
+    @JsonProperty("libelle")
     private String libelle;
 
     public CategoryDto() {
+            //nope sonar
     }
 
     public CategoryDto(String id, String libelle) {

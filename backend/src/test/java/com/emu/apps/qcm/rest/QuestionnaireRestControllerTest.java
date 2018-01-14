@@ -1,6 +1,8 @@
 package com.emu.apps.qcm.rest;
 
 import com.emu.apps.qcm.Application;
+import com.emu.apps.qcm.services.dtos.QuestionnaireDto;
+import com.google.common.collect.Iterables;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +17,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestOperations;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -67,12 +73,23 @@ public class QuestionnaireRestControllerTest implements RestTemplateHolder {
         //        .startsWith("http://localhost:" + this.port + "/");
 
         //then(storageService).should().store(any(MultipartFile.class));
+
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(createURLWithPort("/api/v1/questionnaires/"));
+        final ResponseEntity<QuestionnaireDto[]> responseGet =
+                restTemplate.getForEntity(builder.build().encode().toUri(),
+                                          QuestionnaireDto[].class);
+
+
+        List<QuestionnaireDto> questionnaireDtos = Arrays.asList(responseGet.getBody());
+
+        assertThat(responseGet.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+        assertThat(questionnaireDtos).isNotNull().isNotEmpty();
+        QuestionnaireDto first = Iterables.getFirst(questionnaireDtos, null);
+        assertThat(first).isNotNull();
+
+
     }
-
-
-
-
-
 
 
 

@@ -1,7 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {UserService} from 'app/api/api/user.service'
+import {UserService} from 'app/api/services/user.service'
 import {User} from './api/model/user.model';
 import {Subscription} from 'rxjs/Subscription';
+import {Category} from './api/model/category.model';
+import {CategoryService} from './api/services/category.service';
+import {Observable} from 'rxjs/Observable';
+import {FormControl} from '@angular/forms';
+
 
 @Component({
   selector: 'app-root',
@@ -12,13 +17,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public user: User;
 
-  private subscription: Subscription;
+  public categories: Observable<Category[]>;
 
-  constructor(private userService: UserService) {
-    this.subscription = this.userService.getCurrentUser()
+
+  constructor(private userService: UserService, private categoryService: CategoryService) {
+    this.userService.getCurrentUser()
       .subscribe(
         (user) => {
           this.user = user;
+          this.categories = this.categoryService.getCategories();
         }
       );
   }
@@ -33,7 +40,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
-    this.subscription.unsubscribe();
   }
 
 }

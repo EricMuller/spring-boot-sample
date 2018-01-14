@@ -1,3 +1,25 @@
-<p>
-  questionnaire-detail works!
-</p>
+<!--<p>-->
+  <!--<span matLine>{{questionnaire.category.libelle}}</span>-->
+<!--</p>-->
+<mat-toolbar>
+  <button mat-icon-button class="td-menu-button" routerLink="/questionnaires"   mdTooltip="Back">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span> Questionnaire {{questionnaire.title}}</span>
+</mat-toolbar>
+<mat-card>
+  <mat-card-title>
+    Questions
+  </mat-card-title>
+  <mat-nav-list>
+    <mat-list-item *ngFor="let question of results  | async">
+      <img matListAvatar src="/assets/question-simple.png"/>
+      <h4 matLine> Question {{question.number}} - {{question.question}} </h4>
+      <button mat-icon-button matTooltip="More actions">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <!-- <span class="fill-remaining-space"></span>-->
+      <span></span>
+    </mat-list-item>
+  </mat-nav-list>
+</mat-card>

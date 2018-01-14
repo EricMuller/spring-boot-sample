@@ -26,9 +26,7 @@ public class QuestionRestController {
     @Autowired
     private QuestionService questionService;
 
-
-
-    @ApiOperation(value = "Find all questions", responseContainer = "List", response = QuestionDto.class, nickname = "getQuestionByQuestionnaireIDAndCategorieId")
+    @ApiOperation(value = "Find all questions", responseContainer = "List", response = QuestionDto.class, nickname = "getQuestionByQuestionnaireID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved list"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
