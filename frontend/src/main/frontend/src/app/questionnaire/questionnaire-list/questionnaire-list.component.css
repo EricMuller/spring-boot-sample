@@ -34,3 +34,40 @@
   height: 100%;
   background-color: rgba(0,0,0,0.3);
 }
+
+
+.col-cv-edit-image {
+  max-height: 250px;
+  width: 100%;
+}
+
+.col-detail-image {
+  max-height: 300px;
+  overflow: hidden;
+}
+
+.fixed-right {
+  position: fixed;
+  padding-top: 62px;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  overflow: hidden;
+}
+
+
+.col-cv-edit-info-heading {
+  color: #444;
+  cursor: default;
+  margin-top: 16px;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
