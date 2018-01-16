@@ -16,4 +16,8 @@ export class QuestionnaireService {
     return this.http.get<Questionnaire>('/api/v1/questionnaires/' + id.toString()).share();
   }
 
+  public postQuestionnaire(q: Questionnaire) {
+    return this.http.post<Questionnaire>('/api/v1/questionnaires/', q);
+  }
+
 }

@@ -1,73 +1,37 @@
-<mat-sidenav class="fixed-right" #sidenavright align="end" mode="side" opened="false"
-             style="width:357px;border-left:1px solid #ccc">
-  <div class="col-detail-image col-detail-bg-default" style="height: 163px;">
-    <img class="col-cv-edit-image" alt="" src="./assets/images/tiles/tile-bg-6.jpg">
-  </div>
-  <mat-divider></mat-divider>
-  <mat-card style="box-shadow: unset">
-    <mat-card-content>
-      <form class="example-form">
-        <mat-form-field class="example-full-width">
-        <textarea matInput placeholder="Title" matTextareaAutosize matAutosizeMinRows="2"
-                  matAutosizeMaxRows="5"></textarea>
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
-
-          <textarea matInput placeholder="Description" matTextareaAutosize matAutosizeMinRows="2"
-                    matAutosizeMaxRows="5"></textarea>
-        </mat-form-field>
-
-        <mat-form-field *ngIf="categories| async as categories;">
-
-          <mat-select placeholder="Category" [formControl]="categoryControl" required>
-            <mat-option>--</mat-option>
-            <mat-option *ngFor="let category of categories" [value]="category.id">
-              {{category.libelle}}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="categoryControl.hasError('required')">Please choose a category</mat-error>
-          <!--<mat-hint>{{categoryControl.value}}</mat-hint>-->
-        </mat-form-field>
-
-      </form>
-    </mat-card-content>
-    <mat-card-actions align="end">
-      <button mat-raised-button (click)="sidenavright.toggle()">Close</button>
-    </mat-card-actions>
-  </mat-card>
-
-</mat-sidenav>
-
 <mat-sidenav-container id="sidenav-container" style="height:100%;">
   <mat-sidenav-content>
-    <mat-menu #questionnaireMenu="matMenu" yPosition="below">
-      <button mat-menu-item (click)="sidenavright.toggle()">
-        <mat-icon>edit</mat-icon>
-        Update
-      </button>
-      <button mat-menu-item>
-        <mat-icon>delete</mat-icon>
-        Delete
-      </button>
-    </mat-menu>
-    <!--  detail nav -->
+
+
     <ng-template #loading>
       <mat-spinner ng-disabled="!loading" style="margin: auto"></mat-spinner>
     </ng-template>
 
     <mat-nav-list ng-hide="!questionnaires" *ngIf="questionnaires| async as questionnaires; else loading">
       <div>
-        <div *ngFor="let questionnaire of questionnaires">
+        <div *ngFor="let q of questionnaires">
+
           <mat-list-item style="overflow: hidden">
-            <!--<a mat-list-item (click)="openDialog()">-->
+
             <img matListAvatar src="./assets/question-simple.png"/>
-            <h4 matLine class="cursor-pointer" [routerLink]="['/questionnaires/', questionnaire.id]"> Questionnaire
-              {{questionnaire.title}} </h4>
+            <h4 matLine class="cursor-pointer" [routerLink]="['/questionnaires/', q.id]"> Questionnaire
+              {{q.title}} </h4>
 
             <button mat-icon-button matTooltip="More actions" [matMenuTriggerFor]="questionnaireMenu">
               <mat-icon>more_vert</mat-icon>
             </button>
-            <!--</a>-->
+
+            <!-- menu -->
+            <mat-menu #questionnaireMenu="matMenu" yPosition="below">
+              <button mat-menu-item (click)="edit(q)">
+                <mat-icon>edit</mat-icon>
+                Update
+              </button>
+              <button mat-menu-item>
+                <mat-icon>delete</mat-icon>
+                Delete
+              </button>
+            </mat-menu>
+
           </mat-list-item>
           <!--<mat-divider *ngIf="!last" mat-inset></mat-divider>-->
           <mat-divider mat-inset></mat-divider>
@@ -81,10 +45,43 @@
 </mat-sidenav-container>
 
 
+<mat-sidenav class="fixed-right" #sidenavright align="end" mode="side" opened="false"
+             style="width:357px;border-left:1px solid #ccc">
+  <div class="col-detail-image col-detail-bg-default" style="height: 163px;">
+    <img class="col-cv-edit-image" alt="" src="./assets/images/tiles/tile-bg-6.jpg">
+  </div>
+  <mat-divider></mat-divider>
+  <mat-card style="box-shadow: unset">
+    <mat-card-content>
+      <form #qForm="ngForm" class="example-form">
+        {{questionnaire |json}}
+        <mat-form-field class="example-full-width">
+          <textarea matInput placeholder="Title" matTextareaAutosize matAutosizeMinRows="1"
+                    matAutosizeMaxRows="5" [(ngModel)]="questionnaire.title" name="title"></textarea>
+        </mat-form-field>
 
+        <mat-form-field class="example-full-width">
+          <textarea matInput placeholder="Description" matTextareaAutosize matAutosizeMinRows="1"
+                    matAutosizeMaxRows="5"   [(ngModel)]="questionnaire.description" name="description"></textarea>
+        </mat-form-field>
 
+        <mat-form-field *ngIf="categories| async as categories;">
 
+          <mat-select placeholder="Category" [formControl]="categoryControl" required [(ngModel)]="questionnaire.category" name="category"  [compareWith]="compareById">
+            <mat-option>--</mat-option>
+            <mat-option *ngFor="let category of categories" [value]="category"  >{{category.libelle}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="categoryControl.hasError('required')">Please choose a category</mat-error>
+          <!--<mat-hint>{{categoryControl.value}}</mat-hint>-->
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-raised-button (click)="hide()">Close</button>
+      <button mat-raised-button (click)="save(questionnaire)">Save</button>
+    </mat-card-actions>
+  </mat-card>
 
-
+</mat-sidenav>
 
 

@@ -45,8 +45,22 @@ public class QuestionnaireService {
         return questionnaireMapper.modelToDtos(questionnaireCrudRepository.findAll());
     }
 
+
     public QuestionnaireDto saveQuestionnaire(QuestionnaireDto questionnaireDto) {
-        Questionnaire questionnaire = questionnaireMapper.dtoToModel(questionnaireDto);
+
+
+        Questionnaire questionnaire = questionnaireDto.getId() != null ? questionnaireCrudRepository.findOne(questionnaireDto.getId()) : null;
+        if (questionnaireDto.getId() != null) {
+            questionnaireMapper.updateQuestionnaire(questionnaire, questionnaireDto);
+        } else {
+            questionnaire = questionnaireMapper.dtoToModel(questionnaireDto);
+        }
+
+        if (questionnaireDto.getCategory() != null) {
+            Category category = categorieRepository.findOne(Long.valueOf(questionnaireDto.getCategory().getId()));
+            questionnaire.setCategory(category);
+        }
+
         return questionnaireMapper.modelToDto(questionnaireCrudRepository.save(questionnaire));
     }
 
@@ -69,9 +83,9 @@ public class QuestionnaireService {
                     category.setLibelle(fileQuestionDto.getCategorie());
                     categorieRepository.save(category);
                     categoryNumberMap.put(category.getLibelle(), Long.valueOf(1));
-                }else{
+                } else {
                     Long aLong = categoryNumberMap.get(category.getLibelle());
-                    categoryNumberMap.put(category.getLibelle(),++aLong);
+                    categoryNumberMap.put(category.getLibelle(), ++aLong);
                 }
 
                 question.setType(Type.TEXTE_LIBRE);

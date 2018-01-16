@@ -1,6 +1,5 @@
 package com.emu.apps.qcm.model;
 
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -22,10 +21,10 @@ public class Questionnaire {
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @BatchSize(size = 20)
+//    @BatchSize(size = 20)
     private List<Question> questions;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @Fetch(FetchMode.JOIN)
     private Category category;
 
