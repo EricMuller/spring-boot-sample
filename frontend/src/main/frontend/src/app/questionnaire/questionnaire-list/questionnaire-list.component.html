@@ -54,7 +54,6 @@
   <mat-card style="box-shadow: unset">
     <mat-card-content>
       <form #qForm="ngForm" class="example-form">
-        {{questionnaire |json}}
         <mat-form-field class="example-full-width">
           <textarea matInput placeholder="Title" matTextareaAutosize matAutosizeMinRows="1"
                     matAutosizeMaxRows="5" [(ngModel)]="questionnaire.title" name="title"></textarea>
