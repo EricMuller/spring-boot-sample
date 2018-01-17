@@ -1,13 +1,36 @@
-import { TestBed, async } from '@angular/core/testing';
+import {async, TestBed} from '@angular/core/testing';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
+import {MatCheckboxModule, MatIconModule, MatListModule, MatMenuModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
+import {RouterModule} from '@angular/router';
+import {UserService} from './api';
+import {HttpClientModule} from '@angular/common/http';
+import {CookieService} from 'ngx-cookie-service';
+import {CategoryService} from './api/services/category.service';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {RouterTestingModule} from '@angular/router/testing';
+import {User} from './api/model/user.model';
+import {Observable} from 'rxjs/Rx';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        MatIconModule,
+        MatMenuModule,
+        MatToolbarModule,
+        MatCheckboxModule,
+        MatListModule,
+        MatSidenavModule,
+        RouterModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        RouterTestingModule
+      ],
       declarations: [
         AppComponent
       ],
+      providers: [CookieService, CategoryService, {provide: UserService, useClass: MockUserService}]
     }).compileComponents();
   }));
 
@@ -20,13 +43,15 @@ describe('AppComponent', () => {
   it(`should have as title 'app'`, async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('app');
+    expect(app.user.name).toEqual('eric');
   }));
 
-  it('should render title in a h1 tag', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!!');
-  }));
 });
+
+class MockUserService {
+  public getCurrentUser(): Observable<User> {
+    const user: User = new User();
+    user.name = 'eric';
+    return Observable.of(user);
+  }
+};

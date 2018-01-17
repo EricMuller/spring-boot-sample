@@ -63,7 +63,6 @@ export class QuestionnaireListComponent implements OnInit {
       this.sidenavright.toggle();
       this.notifierService.notifySuccess(result.title, 2000);
     });
-
   }
 
   public edit(q: Questionnaire) {

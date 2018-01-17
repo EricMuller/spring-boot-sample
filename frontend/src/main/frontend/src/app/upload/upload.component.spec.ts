@@ -1,6 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { UploadComponent } from './upload.component';
+import {UploadComponent} from './upload.component';
+import {HttpClientModule} from '@angular/common/http';
+import {NotifierService} from '../shared/simple-notifier.service';
+import {MatSnackBarModule} from '@angular/material';
 
 describe('UploadComponent', () => {
   let component: UploadComponent;
@@ -8,9 +11,13 @@ describe('UploadComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UploadComponent ]
+      imports: [HttpClientModule,
+        MatSnackBarModule,
+      ],
+      declarations: [UploadComponent],
+      providers: [NotifierService]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

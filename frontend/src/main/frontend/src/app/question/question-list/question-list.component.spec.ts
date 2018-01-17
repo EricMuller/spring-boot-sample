@@ -1,6 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { QuestionListComponent } from './question-list.component';
+import {QuestionListComponent} from './question-list.component';
+import {MatIconModule, MatListModule, MatSnackBarModule, MatTableModule} from '@angular/material';
+import {HttpClientModule} from '@angular/common/http';
+import {QuestionService} from '../../api';
+import {NotifierService} from '../../shared/simple-notifier.service';
+import {RouterTestingModule} from '@angular/router/testing';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('QuestionListComponent', () => {
   let component: QuestionListComponent;
@@ -8,9 +14,13 @@ describe('QuestionListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QuestionListComponent ]
+      imports: [MatTableModule, MatIconModule, MatListModule, MatSnackBarModule,
+        HttpClientModule, BrowserAnimationsModule, RouterTestingModule
+      ],
+      declarations: [QuestionListComponent],
+      providers: [QuestionService, NotifierService]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -21,5 +31,6 @@ describe('QuestionListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
+  })
+  ;
 });
