@@ -1,11 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {UserService} from 'app/api/services/user.service'
 import {User} from './api/model/user.model';
-import {Subscription} from 'rxjs/Subscription';
 import {Category} from './api/model/category.model';
 import {CategoryService} from './api/services/category.service';
 import {Observable} from 'rxjs/Observable';
-import {FormControl} from '@angular/forms';
+import {MatSidenav} from '@angular/material';
 
 
 @Component({
@@ -19,6 +18,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public categories: Observable<Category[]>;
 
+  @ViewChild('sidenavleft')
+  private sidenavleft: MatSidenav;
 
   constructor(private userService: UserService, private categoryService: CategoryService) {
     this.userService.getCurrentUser()
@@ -32,6 +33,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
 
+  }
+
+  public toggle(): void {
+    if (this.user) {
+      this.sidenavleft.toggle();
+    }
   }
 
   public logout(event): void {

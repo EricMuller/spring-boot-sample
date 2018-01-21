@@ -1,25 +1,37 @@
 <!--<p>-->
-  <!--<span matLine>{{questionnaire.category.libelle}}</span>-->
+<!--<span matLine>{{questionnaire.category.libelle}}</span>-->
 <!--</p>-->
-<mat-toolbar>
-  <button mat-icon-button class="td-menu-button" routerLink="/questionnaires"   mdTooltip="Back">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-  <span> Questionnaire {{questionnaire.title}}</span>
-</mat-toolbar>
-<mat-card>
-  <mat-card-title>
-    Questions
-  </mat-card-title>
-  <mat-nav-list>
-    <mat-list-item *ngFor="let question of results  | async">
-      <img matListAvatar src="/assets/question-simple.png"/>
-      <h4 matLine> Question {{question.number}} - {{question.question}} </h4>
-      <button mat-icon-button matTooltip="More actions">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <!-- <span class="fill-remaining-space"></span>-->
-      <span></span>
-    </mat-list-item>
-  </mat-nav-list>
-</mat-card>
+
+
+
+  <mat-toolbar>
+    <button mat-icon-button class="td-menu-button" routerLink="/questionnaires" mdTooltip="Back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+     <span style="text-align: center;width:100% ;"> Questionnaire {{questionnaire.title}}</span>
+    </mat-toolbar>
+<mat-divider></mat-divider>
+
+
+
+<mat-accordion class="example-headers-align">
+  <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle="true" *ngFor="let question of results  | async">
+    <mat-expansion-panel-header>
+            <mat-panel-description>
+
+            <img matListAvatar src="./assets/question-simple.png" style="width: 32px;height: 32px"/>
+
+              <span style="padding-left: 10px;text-align: center"> {{question.number}}.{{question.question}}</span>
+            </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    {{question.reponse}}
+
+    <mat-action-row>
+      <button mat-button color="primary" (click)="nextStep()">Next</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
+
+
+

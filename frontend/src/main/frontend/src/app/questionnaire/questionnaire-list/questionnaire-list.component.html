@@ -1,7 +1,6 @@
+
 <mat-sidenav-container id="sidenav-container" style="height:100%;">
   <mat-sidenav-content>
-
-
     <ng-template #loading>
       <mat-spinner ng-disabled="!loading" style="margin: auto"></mat-spinner>
     </ng-template>
@@ -13,7 +12,10 @@
           <mat-list-item style="overflow: hidden">
 
             <img matListAvatar src="./assets/question-simple.png"/>
-            <h4 matLine class="cursor-pointer" [routerLink]="['/questionnaires/', q.id]"> Questionnaire
+
+            <!--<mat-icon matListIcon>question_answer</mat-icon>-->
+
+            <h4 matLine class="cursor-pointer" [routerLink]="['/questionnaires/', q.id]">Questionnaire
               {{q.title}} </h4>
 
             <button mat-icon-button matTooltip="More actions" [matMenuTriggerFor]="questionnaireMenu">

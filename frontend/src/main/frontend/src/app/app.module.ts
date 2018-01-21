@@ -5,7 +5,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 // material
 import {
-  MatButtonModule, MatCardModule, MatCheckboxModule, MatFormFieldModule, MatGridListModule, MatIconModule, MatInputModule, MatListModule,
+  MatButtonModule, MatCardModule, MatCheckboxModule, MatExpansionModule, MatFormFieldModule, MatGridListModule, MatIconModule,
+  MatInputModule, MatListModule,
   MatMenuModule,
   MatProgressSpinnerModule,
   MatSelectModule,
@@ -62,6 +63,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatSnackBarModule,
     MatTableModule,
     MatToolbarModule,
+    MatExpansionModule,
     ReactiveFormsModule,
     RouterModule,
     RouterModule.forRoot(ROUTES_CONFIG),
