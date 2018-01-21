@@ -1,0 +1,26 @@
+
+spring:
+    profiles: brix
+    jpa:
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+      generate-ddl: false
+      show-sql: false
+      hibernate:
+          # dll-auto: none
+          ddl-auto: update
+          # ddl-auto: create-drop
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+          properties:
+              hibernate:
+                 generate_statistics: true
+                 order_inserts: true
+                 order_updates: true
+                 jdbc:
+                     batch_size: 200
+                     batch_versioned_data: true
+
+    datasource:
+        driverClassName: org.postgresql.Driver
+        url: jdbc:postgresql://192.168.1.100:5432/qcm
+        username: mynotes
+        password: mynotes

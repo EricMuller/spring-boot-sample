@@ -1,5 +1,6 @@
 package com.emu.apps.qcm.services.dtos;
 
+import com.emu.apps.qcm.services.UniqueDto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
@@ -8,7 +9,7 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ApiModel(value = "Questionnaire")
-public class QuestionnaireDto {
+public class QuestionnaireDto extends UniqueDto {
 
     private Long id;
 

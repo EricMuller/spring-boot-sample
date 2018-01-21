@@ -65,6 +65,7 @@ public class QuestionRestControllerTest implements RestTemplateHolder {
         // POST
         QuestionDto questionDto = new QuestionDto();
         questionDto.setQuestion(QUESTION);
+        questionDto.setNumber(1L);
 
         ResponseDto responseDto = new ResponseDto();
         responseDto.setResponse(RESPONSE);

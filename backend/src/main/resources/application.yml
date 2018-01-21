@@ -1,4 +1,15 @@
-
+info:
+  application-name: qcm
+  metrics.autoconfig : affiche un rapport montrant les objets pouvant bénéficier de la configuration automatique et ceux qui le sont ou ne le sont pas (voir exemple)
+  metrics.beans : affiche la liste des beans Spring (voir exemple)
+  metrics.configprops : affiche la liste de la configuration externalisée de votre application les @ConfigurationProperties(voir exemple)
+  metrics.dump : effectue un dump des threads  (voir exemple)
+  metrics.env : affiche toutes les propriétés chargées par Spring environnement ou non (voir exemple)
+  metrics.info : affiche des informations que vous spécifiez dans un fichier application.properties (vide par défaut)
+  metrics.health : montre l'état de l'application (voir exemple)
+  metrics.metrics : différentes métriques liées à l'application (voir exemple)
+  metrics.mappings : toutes les URL accessibles, recense les @RequestMapping(voir exemple)
+  metrics.trace : affiche les logs de l'application, par défaut les requêtes HTTP (voir exemple)
 
 security:
   jwt:
@@ -40,8 +51,8 @@ webmarks:
     userInfoUri: https://oauth2.webmarks.net/api/v1/accounts/me/
 
 logging:
-      # file: logs/application-debug.logger
-      level:
+    # file: logs/application-debug.logger
+    level:
         root: WARN
         org.springframework.web: ERROR
         org.springframework.security: ERROR
@@ -49,24 +60,35 @@ logging:
         org.hibernate.SQL: DEBUG
         org.hibernate.type.descriptor.sql: DEBUG
         com.emu.apps: WARN
+        org.springframework.aop.interceptor.PerformanceMonitorInterceptor: TRACE
+
+
 
 server:
-  address: 127.0.0.1
-  port: 8080
+    address: 127.0.0.1
+    port: 8080
 
----
-spring:
-    profiles: development
-    jpa:
-        database-platform: org.hibernate.dialect.DerbyDialect
-        generate-ddl: false
-        show-sql: true
-        hibernate:
-            ddl-auto: create-drop
-            properties:
-               hibernate:
-                  dialect: org.hibernate.dialect.DerbyDialect
-        properties:
+management:
+   context-path: /metrics
+   address: 127.0.0.1
+   port: 9001
+   security:
+       enabled: false
+
+
+jpa:
+    database-platform: org.hibernate.dialect.DerbyDialect
+    generate-ddl: false
+    show-sql: true
+    properties:
               format_sql: true
+    hibernate:
+       ddl-auto: create-drop
+       properties:
+          hibernate:
+             dialect: org.hibernate.dialect.DerbyDialect
+
+
+
 
 

@@ -4,6 +4,7 @@ import com.emu.apps.qcm.model.Question;
 import com.emu.apps.qcm.model.Response;
 import com.emu.apps.qcm.services.dtos.QuestionDto;
 import com.emu.apps.qcm.services.dtos.ResponseDto;
+import com.emu.apps.qcm.services.projections.QuestionProjection;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -15,6 +16,8 @@ public interface QuestionMapper {
 
     QuestionDto modelToDto(Question question);
 
+    Iterable<QuestionDto> projectionsToDtos(Iterable<QuestionProjection> questions);
+
     Iterable<QuestionDto> modelToDtos(Iterable<Question> questions);
 
     @Named("responseWithOutResponse")
@@ -23,6 +26,8 @@ public interface QuestionMapper {
 
     @Named("questionWithOutResponse")
     @Mapping(target = "responses", qualifiedByName = "responseWithOutResponse")
-    QuestionDto modelToDtoWithoutStringResponse(Question question);
+    QuestionDto modelToDtoWithoutStringResponse(QuestionProjection question);
+
+
 
 }

@@ -44,13 +44,13 @@ public class QuestionnaireRepositoryTest {
         Response response = new Response();
         response.setNumber(1l);
         response.setResponse(RESPONSE);
-        response.setTrue(false);
+
         responseCrudRepository.save(response);
 
         Response response2 = new Response();
         response2.setNumber(2l);
         response2.setResponse(RESPONSE2);
-        response2.setTrue(true);
+
         responseCrudRepository.save(response2);
 
         Category category = new Category();
@@ -60,7 +60,8 @@ public class QuestionnaireRepositoryTest {
         //given
         Question question = new Question();
         question.setQuestion(QUESTION);
-        question.setType(Type.TEXTE_LIBRE);
+        question.setType(Type.FREE_TEXT);
+        question.setNumber(2L);
 
         question.setResponses(Lists.newArrayList(response, response2));
 
@@ -93,7 +94,7 @@ public class QuestionnaireRepositoryTest {
         Response response1 = Iterables.getFirst(question1.getResponses(), null);
 
         Assert.assertEquals(RESPONSE, response1.getResponse());
-        Assert.assertEquals(false, response1.getTrue());
+
 
     }
 

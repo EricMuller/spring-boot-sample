@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Questionnaire {
+public class Questionnaire  extends UniqueEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,27 +16,28 @@ public class Questionnaire {
     @Version
     private Long version;
 
-    private String title;
-
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "TITLE")
+    private String title;
+
+    @Column(name = "LOCALE")
+    private String locale;
+
     @OneToMany(cascade = CascadeType.ALL)
-//    @BatchSize(size = 20)
+    //  @BatchSize(size = 20)
     private List<Question> questions;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @Fetch(FetchMode.JOIN)
     private Category category;
 
-    public Questionnaire(String title) {
-        this.title = title;
-    }
-
     public Questionnaire() {
     }
 
-    public Questionnaire(List<Question> questionList) {
-        this.questions = questionList;
+    public Questionnaire(String title) {
+        this.title = title;
     }
 
     public List<Question> getQuestions() {
@@ -78,4 +79,17 @@ public class Questionnaire {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
 }

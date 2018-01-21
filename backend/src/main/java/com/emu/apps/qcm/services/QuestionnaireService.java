@@ -88,11 +88,10 @@ public class QuestionnaireService {
                     categoryNumberMap.put(category.getLibelle(), ++aLong);
                 }
 
-                question.setType(Type.TEXTE_LIBRE);
+                question.setType(Type.FREE_TEXT);
                 question.setNumber(categoryNumberMap.get(category.getLibelle()));
 
                 Response response = new Response();
-                response.setTrue(Boolean.TRUE);
                 response.setResponse(fileQuestionDto.getResponse());
 
                 question.setResponses(Lists.newArrayList(response));

@@ -1,14 +1,17 @@
 package com.emu.apps.qcm.services.dtos;
 
-import io.swagger.annotations.*;
+import com.emu.apps.qcm.model.Type;
+import com.emu.apps.qcm.services.UniqueDto;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * Created by eric on 05/06/2017.
  */
 @ApiModel(value = "Question")
-public class QuestionDto {
+public class QuestionDto extends UniqueDto {
 
     @ApiModelProperty(notes = "The database generated product ID")
     private Long id;
@@ -19,9 +22,9 @@ public class QuestionDto {
 
     private String question;
 
-    private CategoryDto category;
-
     private List<ResponseDto> responses;
+
+    private Type type;
 
     public Long getId() {
         return id;
@@ -37,14 +40,6 @@ public class QuestionDto {
 
     public void setQuestion(String question) {
         this.question = question;
-    }
-
-    public CategoryDto getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryDto category) {
-        this.category = category;
     }
 
     public List<ResponseDto> getResponses() {
@@ -69,5 +64,13 @@ public class QuestionDto {
 
     public void setNumber(Long number) {
         this.number = number;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }

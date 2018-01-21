@@ -1,9 +1,8 @@
 package com.emu.apps.qcm.model;
 
-import com.emu.apps.qcm.model.converters.BooleanTFConverter;
-
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Response {
@@ -12,28 +11,29 @@ public class Response {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "response", nullable = false, length = 32672)
-    private String response;
-
     @Version
-    private Long  version;
+    private Long version;
+
+    @Column(name = "RESPONSE", nullable = false, length = 32672)
+    private String response;
 
     @Column(name = "CREATED_DATE")
     private Date date;
 
-    @Column(name = "number")
+    @Column(name = "NUMBER")
     private Long number;
 
-    @Convert(converter=BooleanTFConverter.class)
-    private Boolean isTrue;
+    @Column(name = "NUMBER")
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<Choice> choices;
 
     public Response() {
         //
     }
 
-    public Response(String response, Boolean isTrue, Date date) {
+    public Response(Type type, String response, Date date) {
         this.response = response;
-        this.isTrue = isTrue;
         this.date = date;
     }
 
@@ -69,14 +69,6 @@ public class Response {
         this.number = number;
     }
 
-    public Boolean getTrue() {
-        return isTrue;
-    }
-
-    public void setTrue(Boolean aTrue) {
-        isTrue = aTrue;
-    }
-
     @Override
     public String toString() {
         return String.format("Response[id=%d,  response='%s']", id, response);
@@ -88,5 +80,13 @@ public class Response {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    public List<Choice> getChoices() {
+        return choices;
+    }
+
+    public void setChoices(List<Choice> choices) {
+        this.choices = choices;
     }
 }

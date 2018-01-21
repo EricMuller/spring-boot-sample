@@ -1,9 +1,8 @@
 package com.emu.apps.qcm.services.repositories;
 
-import com.emu.apps.qcm.model.*;
-import org.springframework.data.jpa.repository.*;
-import org.springframework.data.repository.*;
-import org.springframework.data.repository.query.*;
+import com.emu.apps.qcm.model.Question;
+import com.emu.apps.qcm.services.projections.QuestionProjection;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -12,8 +11,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuestionCrudRepository extends CrudRepository<Question, Long> {
 
-    @Query("SELECT q.questions FROM Questionnaire q WHERE q.id  = :questionnaireId ")
-    Iterable<Question> findByQuestionnaireId(@Param("questionnaireId") Long questionnaireId);
+    //@Query("SELECT q.questions FROM Questionnaire q WHERE q.id  = :questionnaireId ") @Param("questionnaireId")
+    Iterable<QuestionProjection> findByQuestionnaireId(Long questionnaireId);
 
 
 }

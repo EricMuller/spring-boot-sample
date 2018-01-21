@@ -35,7 +35,8 @@ public class QuestionRepositoryTest {
         //given
         Question question = new Question();
         question.setQuestion(QUESTION);
-        question.setType(Type.TEXTE_LIBRE);
+        question.setType(Type.FREE_TEXT);
+        question.setNumber(1L);
 
         //when
         questionRepository.save(question);

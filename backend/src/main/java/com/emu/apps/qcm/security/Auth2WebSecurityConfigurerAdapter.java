@@ -71,13 +71,14 @@ public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
     @Bean
     @Scope("prototype")
     Logger logger(InjectionPoint injectionPoint) {
-        return LoggerFactory.getLogger(injectionPoint.getMethodParameter().getContainingClass());
+        return LoggerFactory.getLogger(injectionPoint.  getMethodParameter().getContainingClass());
     }
 
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/static/**", "/v2/api-docs", "/swagger-resources/configuration/ui", "/configuration/ui"
-                , "/swagger-resources**", "/swagger-resources/configuration/security", "/swagger-ui.html", "/webjars/**"
+                , "/swagger-resources**", "/swagger-resources/configuration/security", "/swagger-ui.html", "/webjars/**",
+                                   "/metrics/**"
         );
     }
 

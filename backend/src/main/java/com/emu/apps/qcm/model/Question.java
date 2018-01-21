@@ -1,20 +1,21 @@
 package com.emu.apps.qcm.model;
 
 
-import io.swagger.annotations.*;
-import org.hibernate.annotations.*;
+import com.emu.apps.qcm.model.converters.BooleanTFConverter;
+import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.CascadeType;
 import javax.persistence.*;
-import javax.persistence.Entity;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by eric on 05/06/2017.
  */
 
 @Entity
-public class Question {
+public class Question extends UniqueEntity {
     /*@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUST_SEQ")
     @SequenceGenerator(sequenceName = "customer_seq", allocationSize = 1, name = "CUST_SEQ")*/
 
@@ -26,6 +27,13 @@ public class Question {
     @Version
     private Long version;
 
+    @Column(name = "CREATED_DATE")
+    private Date date;
+
+    @Convert(converter = BooleanTFConverter.class)
+    private Boolean mandatory;
+
+    @Column(name = "NUMBER", nullable = false)
     private Long number;
 
     @ManyToOne
@@ -34,20 +42,18 @@ public class Question {
     @Column(name = "question", nullable = false, length = 1024)
     private String question;
 
-    @Column(name = "CREATED_DATE")
-    private Date date;
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     @OneToMany(cascade = CascadeType.ALL)
     @Fetch(FetchMode.SUBSELECT)
     private List<Response> responses;
 
-    @Enumerated(EnumType.STRING)
-    private Type type;
-
     public Question() {
     }
 
-    public Question(String question, Date date) {
+    public Question(Type type,String question, Date date) {
+        this.type = type;
         this.question = question;
         this.date = date;
     }
@@ -89,7 +95,6 @@ public class Question {
         return String.format("Question[id=%d, question='%s']", id, question);
     }
 
-
     public List<Response> getResponses() {
         return responses;
     }
@@ -121,4 +126,13 @@ public class Question {
     public void setType(Type type) {
         this.type = type;
     }
+
+    public Boolean getMandatory() {
+        return mandatory;
+    }
+
+    public void setMandatory(Boolean mandatory) {
+        this.mandatory = mandatory;
+    }
+
 }
