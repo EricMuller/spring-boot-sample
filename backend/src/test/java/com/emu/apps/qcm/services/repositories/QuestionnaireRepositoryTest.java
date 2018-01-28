@@ -22,7 +22,7 @@ public class QuestionnaireRepositoryTest {
     private static final String RESPONSE2 = "a cool response2";
 
     @Autowired
-    private QuestionCrudRepository questionRepository;
+    private QuestionJpaRepository questionRepository;
 
     @Autowired
     private ResponseCrudRepository responseCrudRepository;
@@ -31,7 +31,7 @@ public class QuestionnaireRepositoryTest {
     private CategoryCrudRepository categoryCrudRepository;
 
     @Autowired
-    private QuestionnaireCrudRepository questionnaireCrudRepository;
+    private QuestionnaireJpaRepository questionnaireJpaRepository;
 
     @Before
     public void setUp() throws Exception {
@@ -74,12 +74,12 @@ public class QuestionnaireRepositoryTest {
 
         questionnaire.setQuestions(Lists.newArrayList(question));
 
-        questionnaireCrudRepository.save(questionnaire);
+        questionnaireJpaRepository.save(questionnaire);
 
         //then
         Assert.assertNotNull(questionnaire.getId());
 
-        Questionnaire newQuestionnaire = questionnaireCrudRepository.findOne(questionnaire.getId());
+        Questionnaire newQuestionnaire = questionnaireJpaRepository.findOne(questionnaire.getId());
 
         Assert.assertNotNull(newQuestionnaire.getId());
 

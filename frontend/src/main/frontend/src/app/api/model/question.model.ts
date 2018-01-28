@@ -3,4 +3,5 @@ export class Question {
   categorie: string;
   question: string;
   reponse: string;
+  version?: number;
 }

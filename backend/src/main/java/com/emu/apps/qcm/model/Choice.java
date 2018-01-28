@@ -1,17 +1,13 @@
 package com.emu.apps.qcm.model;
 
 import com.emu.apps.qcm.model.converters.BooleanTFConverter;
-import io.swagger.annotations.ApiModelProperty;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
 
 @Entity
-public class Choice {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @ApiModelProperty(notes = "The database generated Choice ID")
-    private Long id;
+public class Choice extends BasicEntity {
 
     @Column(name = "MESSAGE", nullable = false, length = 1024)
     private String message;

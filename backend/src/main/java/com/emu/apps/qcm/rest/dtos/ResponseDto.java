@@ -1,4 +1,4 @@
-package com.emu.apps.qcm.services.dtos;
+package com.emu.apps.qcm.rest.dtos;
 
 import com.fasterxml.jackson.annotation.*;
 import io.swagger.annotations.*;

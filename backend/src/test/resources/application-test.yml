@@ -2,3 +2,9 @@
 security:
   basic:
     enabled: false
+
+jpa:
+    generate-ddl: false
+    show-sql: true
+    properties:
+              format_sql: true

@@ -1,24 +1,13 @@
 package com.emu.apps.qcm.model;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Response {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Version
-    private Long version;
+public class Response extends BasicEntity {
 
     @Column(name = "RESPONSE", nullable = false, length = 32672)
     private String response;
-
-    @Column(name = "CREATED_DATE")
-    private Date date;
 
     @Column(name = "NUMBER")
     private Long number;
@@ -32,17 +21,8 @@ public class Response {
         //
     }
 
-    public Response(Type type, String response, Date date) {
+    public Response(Type type, String response) {
         this.response = response;
-        this.date = date;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getResponse() {
@@ -51,14 +31,6 @@ public class Response {
 
     public void setResponse(String response) {
         this.response = response;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public Long getNumber() {
@@ -71,15 +43,7 @@ public class Response {
 
     @Override
     public String toString() {
-        return String.format("Response[id=%d,  response='%s']", id, response);
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
+        return String.format("Response[id=%d,  response='%s']", getId(), response);
     }
 
     public List<Choice> getChoices() {

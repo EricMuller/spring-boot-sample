@@ -19,7 +19,7 @@ public class QuestionRepositoryTest {
     private static final String RESPONSE = "a cool response";
 
     @Autowired
-    private QuestionCrudRepository questionRepository;
+    private QuestionJpaRepository questionRepository;
 
     @Before
     public void setUp() throws Exception {

@@ -1,4 +1,4 @@
-package com.emu.apps.qcm.services.dtos;
+package com.emu.apps.qcm.rest.dtos;
 
 import io.swagger.annotations.*;
 

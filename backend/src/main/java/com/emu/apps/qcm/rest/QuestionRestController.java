@@ -1,17 +1,24 @@
 package com.emu.apps.qcm.rest;
 
-import com.emu.apps.qcm.model.*;
-import com.emu.apps.qcm.services.*;
-import com.emu.apps.qcm.services.dtos.*;
-import com.fasterxml.jackson.core.*;
-import io.swagger.annotations.*;
-import org.slf4j.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.http.*;
-import org.springframework.security.access.prepost.*;
+import com.emu.apps.qcm.model.Question;
+import com.emu.apps.qcm.services.QuestionService;
+import com.emu.apps.qcm.rest.dtos.MessageDto;
+import com.emu.apps.qcm.rest.dtos.QuestionDto;
+import com.emu.apps.qcm.rest.mappers.QuestionMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.*;
+import java.io.IOException;
 
 /**
  * Created by eric on 05/06/2017.
@@ -26,6 +33,9 @@ public class QuestionRestController {
     @Autowired
     private QuestionService questionService;
 
+    @Autowired
+    private QuestionMapper questionMapper;
+
     @ApiOperation(value = "Find all questions", responseContainer = "List", response = QuestionDto.class, nickname = "getQuestionByQuestionnaireID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved list"),
@@ -39,11 +49,9 @@ public class QuestionRestController {
     @PreAuthorize("true")
     public Iterable<QuestionDto> getQuestions(@RequestParam(value = "questionnaireId", required = false) Long questionnaireId) {
         if (questionnaireId != null) {
-
-            return questionService.findByQuestionnaireId(questionnaireId);
-
+            return questionMapper.projectionsToDtos(questionService.findByQuestionnaireId(questionnaireId));
         }
-        return questionService.findAll();
+        return questionMapper.modelToDtos(questionService.findAll());
     }
 
 
@@ -51,7 +59,7 @@ public class QuestionRestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public QuestionDto getQuestionById(@PathVariable("id") long id) {
-        return questionService.findOne(id);
+        return questionMapper.modelToDto(questionService.findOne(id));
     }
 
 
@@ -59,15 +67,15 @@ public class QuestionRestController {
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseBody
     public QuestionDto updateQuestion(@RequestBody QuestionDto questionDto) {
-        return questionService.saveQuestion(questionDto);
+        Question question = questionMapper.dtoToModel(questionDto);
+        return questionMapper.modelToDto(questionService.saveQuestion(question));
     }
 
     @ApiOperation(value = "Save a question", response = Question.class, nickname = "saveQuestion")
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public QuestionDto saveQuestion(@RequestBody QuestionDto questionDto) {
-
-        return questionService.saveQuestion(questionDto);
+    public Question saveQuestion(@RequestBody Question question) {
+        return questionService.saveQuestion(question);
     }
 
     @ExceptionHandler({JsonProcessingException.class, IOException.class})

@@ -1,9 +1,9 @@
-package com.emu.apps.qcm.services.mappers;
+package com.emu.apps.qcm.rest.mappers;
 
 import com.emu.apps.qcm.model.Question;
 import com.emu.apps.qcm.model.Response;
-import com.emu.apps.qcm.services.dtos.QuestionDto;
-import com.emu.apps.qcm.services.dtos.ResponseDto;
+import com.emu.apps.qcm.rest.dtos.QuestionDto;
+import com.emu.apps.qcm.rest.dtos.ResponseDto;
 import com.emu.apps.qcm.services.projections.QuestionProjection;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

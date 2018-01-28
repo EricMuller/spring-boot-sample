@@ -51,18 +51,16 @@ webmarks:
     userInfoUri: https://oauth2.webmarks.net/api/v1/accounts/me/
 
 logging:
-    # file: logs/application-debug.logger
+    # file: logs/application-debug.LOGGER
     level:
         root: WARN
         org.springframework.web: ERROR
         org.springframework.security: ERROR
-        org.hibernate: ERROR
-        org.hibernate.SQL: DEBUG
-        org.hibernate.type.descriptor.sql: DEBUG
+        org.hibernate: WARN
+        org.hibernate.SQL: INFO
+        org.hibernate.type.descriptor.sql: WARN
         com.emu.apps: WARN
         org.springframework.aop.interceptor.PerformanceMonitorInterceptor: TRACE
-
-
 
 server:
     address: 127.0.0.1
@@ -77,18 +75,18 @@ management:
 
 
 jpa:
-    database-platform: org.hibernate.dialect.DerbyDialect
-    generate-ddl: false
+#    database-platform: org.hibernate.dialect.DerbyTenSixDialect
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
     show-sql: true
     properties:
-              format_sql: true
+        format_sql: true
     hibernate:
-       ddl-auto: create-drop
-       properties:
-          hibernate:
-             dialect: org.hibernate.dialect.DerbyDialect
+        ddl-auto: create-drop
 
-
-
-
+datasource:
+    url: jdbc:h2:file:~/h2/app_db;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
 

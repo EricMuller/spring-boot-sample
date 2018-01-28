@@ -1,7 +1,7 @@
 package com.emu.apps.qcm.rest;
 
 import com.emu.apps.qcm.Application;
-import com.emu.apps.qcm.services.dtos.QuestionnaireDto;
+import com.emu.apps.qcm.rest.dtos.QuestionnaireDto;
 import com.google.common.collect.Iterables;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,16 +64,10 @@ public class QuestionnaireRestControllerTest implements RestTemplateHolder {
         MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
         map.add("file", resource);
 
-        final ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/api/v1/questionnaires/upload"), HttpMethod.POST,
+        final ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/api/v1/upload/questionnaire"), HttpMethod.POST,
                 new HttpEntity<>(map), String.class);
 
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
-
-        //assertThat(response.getHeaders().getLocation().toString())
-        //        .startsWith("http://localhost:" + this.port + "/");
-
-        //then(storageService).should().store(any(MultipartFile.class));
-
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(createURLWithPort("/api/v1/questionnaires/"));
         final ResponseEntity<QuestionnaireDto[]> responseGet =
@@ -88,10 +82,6 @@ public class QuestionnaireRestControllerTest implements RestTemplateHolder {
         QuestionnaireDto first = Iterables.getFirst(questionnaireDtos, null);
         assertThat(first).isNotNull();
 
-
     }
-
-
-
 }
 

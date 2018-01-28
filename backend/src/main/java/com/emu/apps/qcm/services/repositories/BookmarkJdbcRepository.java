@@ -1,6 +1,6 @@
 package com.emu.apps.qcm.services.repositories;
 
-import com.emu.apps.qcm.services.dtos.*;
+import com.emu.apps.qcm.rest.dtos.BookmarkDto;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.jdbc.core.*;

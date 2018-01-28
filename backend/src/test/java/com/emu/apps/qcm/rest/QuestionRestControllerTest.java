@@ -1,8 +1,8 @@
 package com.emu.apps.qcm.rest;
 
 import com.emu.apps.qcm.Application;
-import com.emu.apps.qcm.services.dtos.QuestionDto;
-import com.emu.apps.qcm.services.dtos.ResponseDto;
+import com.emu.apps.qcm.rest.dtos.QuestionDto;
+import com.emu.apps.qcm.rest.dtos.ResponseDto;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import org.junit.Test;

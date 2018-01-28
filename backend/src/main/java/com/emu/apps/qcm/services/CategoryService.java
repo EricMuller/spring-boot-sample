@@ -1,7 +1,6 @@
 package com.emu.apps.qcm.services;
 
-import com.emu.apps.qcm.services.dtos.CategoryDto;
-import com.emu.apps.qcm.services.mappers.CategoryMapper;
+import com.emu.apps.qcm.model.Category;
 import com.emu.apps.qcm.services.repositories.CategoryCrudRepository;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +17,20 @@ public class CategoryService {
     @Autowired
     private CategoryCrudRepository categoryCrudRepository;
 
-    @Autowired
-    private CategoryMapper categoryMapper;
-
-    public CategoryDto findById(Long id) {
-        return categoryMapper.modelToDto(categoryCrudRepository.findOne(id));
+    public Category save(Category category) {
+        return categoryCrudRepository.save(category);
     }
 
-    public CategoryDto findByLibelle(String libelle) {
-        return categoryMapper.modelToDto(categoryCrudRepository.findByLibelle(libelle));
+    public Category findById(Long id) {
+        return categoryCrudRepository.findOne(id);
     }
 
-    public Iterable<CategoryDto> findAll() {
-        return categoryMapper.modelsToDtos(categoryCrudRepository.findAll());
+    public Category findByLibelle(String libelle) {
+        return categoryCrudRepository.findByLibelle(libelle);
+    }
+
+    public Iterable<Category> findAll() {
+        return categoryCrudRepository.findAll();
     }
 
 }

@@ -35,12 +35,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   }
 
-  public toggle(): void {
-    if (this.user) {
-      this.sidenavleft.toggle();
-    }
-  }
-
   public logout(event): void {
     this.userService.clearUser();
   }

@@ -7,14 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Questionnaire  extends UniqueEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Version
-    private Long version;
+public class Questionnaire  extends BasicEntity {
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -26,10 +19,9 @@ public class Questionnaire  extends UniqueEntity {
     private String locale;
 
     @OneToMany(cascade = CascadeType.ALL)
-    //  @BatchSize(size = 20)
     private List<Question> questions;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @Fetch(FetchMode.JOIN)
     private Category category;
 
@@ -56,14 +48,6 @@ public class Questionnaire  extends UniqueEntity {
         this.title = title;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Category getCategory() {
         return category;
     }
@@ -86,10 +70,6 @@ public class Questionnaire  extends UniqueEntity {
 
     public void setLocale(String locale) {
         this.locale = locale;
-    }
-
-    public String getUuid() {
-        return uuid;
     }
 
 }

@@ -1,6 +1,6 @@
 package com.emu.apps.qcm.rest;
 
-import com.emu.apps.qcm.services.dtos.*;
+import com.emu.apps.qcm.rest.dtos.BookmarkDto;
 import com.emu.apps.qcm.services.repositories.*;
 import io.swagger.annotations.*;
 import org.slf4j.*;
@@ -33,7 +33,7 @@ public class BookmarkRestController {
 
    /* @RequestMapping(value= "ids", produces = "application/json")
     public List<Bookmark> getBookmarksById(@RequestParam("ids") long[] ids) {
-        logger.info("Get bookmarks");
+        LOGGER.info("Get bookmarks");
         return bookmarkRepository.getBookmarks(ids);
     }*/
     @RequestMapping(produces = "application/json", method= RequestMethod.GET)

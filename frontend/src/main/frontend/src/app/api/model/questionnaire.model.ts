@@ -19,4 +19,5 @@ export class Questionnaire {
   description?: string;
   category?: Category;
   questions?: Array<Question>;
+  version?: number;
 }

@@ -1,11 +1,14 @@
 package com.emu.apps.qcm.security;
 
 
+import com.emu.apps.qcm.model.Profile;
+import com.emu.apps.qcm.services.ProfileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InjectionPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.Http401AuthenticationEntryPoint;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -13,7 +16,6 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,7 +36,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.CompositeFilter;
 
 import javax.servlet.Filter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @EnableWebSecurity
@@ -42,10 +46,10 @@ import java.util.List;
 @EnableOAuth2Client
 @RestController
 @Order(6)
-@Profile(value = {"development", "production"})
+@org.springframework.context.annotation.Profile(value = {"development", "production"})
 public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    protected static final Logger LOGGER = LoggerFactory.getLogger(Auth2WebSecurityConfigurerAdapter.class);
 
     @Autowired
     private OAuth2ClientContext oauth2ClientContext;
@@ -56,16 +60,19 @@ public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
     @Autowired
     private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
+    @Autowired
+    private PrincipalExtractor principalExtractor;
+
     @Bean
     @ConfigurationProperties("github")
     public ClientResources github() {
-        return new ClientResources();
+        return new ClientResources(principalExtractor);
     }
 
     @Bean
     @ConfigurationProperties("webmarks")
     public ClientResources webmarks() {
-        return new ClientResources();
+        return new ClientResources(principalExtractor);
     }
 
     @Bean
@@ -102,9 +109,7 @@ public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
                 .addFilterBefore(oauth2LoginFilter, BasicAuthenticationFilter.class)
                 // jwt Token based authentication based on the header previously given to the client
                 .addFilterBefore(new JwtAuthentificationFilter(jwtTokenAuthenticationService), UsernamePasswordAuthenticationFilter.class)
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-        ;
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     }
 
@@ -132,21 +137,36 @@ public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
         UserInfoTokenServices tokenServices = new UserInfoTokenServices(client.getResource().getUserInfoUri(),
                                                                         client.getClient().getClientId());
         tokenServices.setRestTemplate(oAuth2RestTemplate);
+        tokenServices.setPrincipalExtractor(client.getPrincipalExtractor());
 
         OAuth2ClientAuthenticationProcessingFilter oAuth2ClientAuthenticationFilter = new OAuth2ClientAuthenticationProcessingFilter(path);
         oAuth2ClientAuthenticationFilter.setRestTemplate(oAuth2RestTemplate);
         oAuth2ClientAuthenticationFilter.setTokenServices(tokenServices);
+
         oAuth2ClientAuthenticationFilter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
         return oAuth2ClientAuthenticationFilter;
     }
 
     class ClientResources {
 
+
         @NestedConfigurationProperty
         private AuthorizationCodeResourceDetails client = new AuthorizationCodeResourceDetails();
 
         @NestedConfigurationProperty
         private ResourceServerProperties resource = new ResourceServerProperties();
+
+        @NestedConfigurationProperty
+        private PrincipalExtractor principalExtractor;
+
+
+        public ClientResources(PrincipalExtractor principalExtractor) {
+            this.principalExtractor = principalExtractor;
+        }
+
+        public void setPrincipalExtractor(PrincipalExtractor principalExtractor) {
+            this.principalExtractor = principalExtractor;
+        }
 
         public AuthorizationCodeResourceDetails getClient() {
             return client;
@@ -155,6 +175,33 @@ public class Auth2WebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
         public ResourceServerProperties getResource() {
             return resource;
         }
+
+        public PrincipalExtractor getPrincipalExtractor() {
+            return principalExtractor;
+        }
+
+    }
+
+    @Bean
+    public PrincipalExtractor principalExtractor(ProfileService userService) {
+        return map -> {
+            String principalId = (String) map.get("email");
+            Profile profile = userService.findByPrincipalId(principalId);
+            if (profile == null) {
+                LOGGER.info("No profile found, generating profile for {}", principalId);
+                profile = new Profile();
+                profile.setPrincipalId(principalId);
+                profile.setCreated(new Date());
+                profile.setEmail((String) map.get("email"));
+                profile.setFullName((String) map.get("name"));
+                profile.setPhoto((String) map.get("picture"));
+                profile.setLoginType(TypeLogin.WEBMARKS.name());
+                profile.setLastLogin(new Date());
+            } else {
+                profile.setLastLogin(new Date());
+            }
+            return userService.save(profile);
+        };
     }
 
 }

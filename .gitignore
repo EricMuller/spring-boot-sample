@@ -23,3 +23,17 @@ frontend/spring-boot-sample-frontend.iml
 frontend/src/main/frontend/node/
 frontend/src/main/frontend/node_modules/
 
+!/backend/database/
+/backend/database/
+backend/database/
+backend/logs/
+backend/src/main/public/
+backend/tmp/
+frontend/.idea/
+frontend/src/main/frontend/.idea/
+web/
+database/
+logs/
+src/main/public/
+tmp/
+/backend/src/main/resources/application-brix.yml

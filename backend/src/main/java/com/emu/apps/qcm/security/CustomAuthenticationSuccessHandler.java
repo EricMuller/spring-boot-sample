@@ -1,13 +1,16 @@
 package com.emu.apps.qcm.security;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.security.core.*;
-import org.springframework.security.web.authentication.*;
-import org.springframework.stereotype.*;
+import com.emu.apps.qcm.model.Profile;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import java.io.*;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Component
 public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
@@ -18,8 +21,9 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        String principal = (String) authentication.getPrincipal();
-        String jwt = jwtTokenAuthenticationService.createToken(response, principal);
+
+        Profile principal = (Profile) authentication.getPrincipal();
+        String jwt = jwtTokenAuthenticationService.createToken(response, principal.getFullName());
 
         Cookie cookie = new Cookie(JwtTokenCst.HEADER_AUTHORIZATION, jwt);
         cookie.setMaxAge(6000);

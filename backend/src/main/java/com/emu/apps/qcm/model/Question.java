@@ -2,12 +2,10 @@ package com.emu.apps.qcm.model;
 
 
 import com.emu.apps.qcm.model.converters.BooleanTFConverter;
-import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,20 +13,8 @@ import java.util.List;
  */
 
 @Entity
-public class Question extends UniqueEntity {
-    /*@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUST_SEQ")
-    @SequenceGenerator(sequenceName = "customer_seq", allocationSize = 1, name = "CUST_SEQ")*/
+public class Question extends BasicEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @ApiModelProperty(notes = "The database generated Question ID")
-    private Long id;
-
-    @Version
-    private Long version;
-
-    @Column(name = "CREATED_DATE")
-    private Date date;
 
     @Convert(converter = BooleanTFConverter.class)
     private Boolean mandatory;
@@ -42,28 +28,15 @@ public class Question extends UniqueEntity {
     @Column(name = "question", nullable = false, length = 1024)
     private String question;
 
-    @Enumerated(EnumType.STRING)
-    private Type type;
-
     @OneToMany(cascade = CascadeType.ALL)
     @Fetch(FetchMode.SUBSELECT)
     private List<Response> responses;
 
+    @Enumerated(EnumType.STRING)
+    private Type type;
+
+
     public Question() {
-    }
-
-    public Question(Type type,String question, Date date) {
-        this.type = type;
-        this.question = question;
-        this.date = date;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getQuestion() {
@@ -72,14 +45,6 @@ public class Question extends UniqueEntity {
 
     public void setQuestion(String question) {
         this.question = question;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public Long getNumber() {
@@ -92,7 +57,7 @@ public class Question extends UniqueEntity {
 
     @Override
     public String toString() {
-        return String.format("Question[id=%d, question='%s']", id, question);
+        return String.format("Question[id=%d, question='%s']", getId(), question);
     }
 
     public List<Response> getResponses() {
@@ -109,14 +74,6 @@ public class Question extends UniqueEntity {
 
     public void setQuestionnaire(Questionnaire questionnaire) {
         this.questionnaire = questionnaire;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 
     public Type getType() {
